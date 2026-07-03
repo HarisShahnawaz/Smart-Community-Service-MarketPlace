@@ -15,6 +15,10 @@ import ProductList from './pages/products/ProductList';
 import ProductDetail from './pages/products/ProductDetail';
 import CreateEditProduct from './pages/products/CreateEditProduct';
 
+import ServiceList from './pages/services/ServiceList';
+import ServiceDetail from './pages/services/ServiceDetail';
+import CreateEditService from './pages/services/CreateEditService';
+
 function App() {
   return (
     <AuthProvider>
@@ -32,13 +36,21 @@ function App() {
           {/* Public Product Routes */}
           <Route path="products" element={<ProductList />} />
           <Route path="products/:id" element={<ProductDetail />} />
+
+          {/* Public Service Routes */}
+          <Route path="services" element={<ServiceList />} />
+          <Route path="services/:id" element={<ServiceDetail />} />
           
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="profile" element={<ProfileView />} />
             <Route path="profile/edit" element={<ProfileEdit />} />
+            
             <Route path="products/new" element={<CreateEditProduct />} />
             <Route path="products/edit/:id" element={<CreateEditProduct />} />
+            
+            <Route path="services/new" element={<CreateEditService />} />
+            <Route path="services/edit/:id" element={<CreateEditService />} />
           </Route>
         </Route>
       </Routes>

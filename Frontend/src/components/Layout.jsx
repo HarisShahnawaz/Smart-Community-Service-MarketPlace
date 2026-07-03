@@ -23,6 +23,9 @@ const Layout = () => {
               <Link to="/products" className="hidden sm:block text-teal-50 hover:text-white font-medium transition-colors">
                 Marketplace
               </Link>
+              <Link to="/services" className="hidden sm:block text-teal-50 hover:text-white font-medium transition-colors">
+                Services
+              </Link>
             </div>
             <div className="flex items-center space-x-4">
               {user ? (
