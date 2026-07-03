@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+@theme {
+  /* Teal - primary brand color */
+  --color-teal-50: #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-200: #99f6e4;
+  --color-teal-300: #5eead4;
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;   /* primary buttons, links, active states */
+  --color-teal-700: #0f766e;   /* hover states */
+  --color-teal-800: #115e59;
+  --color-teal-900: #134e4a;   /* headings, dark text accents */
+
+  /* Beige - background & neutral surface color */
+  --color-beige-50: #fdfcfb;
+  --color-beige-100: #f7f3ee;   /* page background */
+  --color-beige-200: #efe6db;   /* card/section background */
+  --color-beige-300: #e3d5c3;   /* borders, dividers */
+  --color-beige-400: #d1bda3;
+  --color-beige-500: #b89b7a;   /* muted text, secondary elements */
+  --color-beige-600: #96795c;
+
+  /* Supporting neutrals */
+  --color-charcoal: #2b2b28;    /* body text */
+  --color-success: #4d9078;
+  --color-warning: #c9973f;
+  --color-danger: #c1584a;
+}
