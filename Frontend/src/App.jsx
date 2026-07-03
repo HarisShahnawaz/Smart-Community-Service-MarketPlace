@@ -8,6 +8,13 @@ import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 
+import ProfileView from './pages/profile/ProfileView';
+import ProfileEdit from './pages/profile/ProfileEdit';
+
+import ProductList from './pages/products/ProductList';
+import ProductDetail from './pages/products/ProductDetail';
+import CreateEditProduct from './pages/products/CreateEditProduct';
+
 function App() {
   return (
     <AuthProvider>
@@ -19,9 +26,19 @@ function App() {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password/:resettoken" element={<ResetPassword />} />
           
-          {/* Protected Routes placeholder */}
+          {/* Public Profile View */}
+          <Route path="profile/:id" element={<ProfileView />} />
+          
+          {/* Public Product Routes */}
+          <Route path="products" element={<ProductList />} />
+          <Route path="products/:id" element={<ProductDetail />} />
+          
+          {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="profile" element={<div className="p-8">Profile Page Placeholder</div>} />
+            <Route path="profile" element={<ProfileView />} />
+            <Route path="profile/edit" element={<ProfileEdit />} />
+            <Route path="products/new" element={<CreateEditProduct />} />
+            <Route path="products/edit/:id" element={<CreateEditProduct />} />
           </Route>
         </Route>
       </Routes>

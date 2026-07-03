@@ -16,9 +16,12 @@ const Layout = () => {
       <nav className="bg-teal-600 text-white shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex-shrink-0 flex items-center">
+            <div className="flex-shrink-0 flex items-center gap-6">
               <Link to="/" className="font-bold text-xl tracking-tight">
                 Smart Community
+              </Link>
+              <Link to="/products" className="hidden sm:block text-teal-50 hover:text-white font-medium transition-colors">
+                Marketplace
               </Link>
             </div>
             <div className="flex items-center space-x-4">
