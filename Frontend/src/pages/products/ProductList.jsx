@@ -1,128 +1,255 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
-import { MapPin, Tag } from 'lucide-react';
+import { MapPin, Tag, Search, Filter, X } from 'lucide-react';
+import FavoriteButton from '../../components/FavoriteButton';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  // Search & Filter State
+  const [keyword, setKeyword] = useState('');
+  const [category, setCategory] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const CATEGORIES = ['Electronics', 'Furniture', 'Clothing', 'Books', 'Tools', 'Sports', 'Other'];
+
+  const fetchProducts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (keyword) params.append('keyword', keyword);
+      if (category) params.append('category', category);
+      if (minPrice) params.append('minPrice', minPrice);
+      if (maxPrice) params.append('maxPrice', maxPrice);
+
+      const res = await api.get(`/products?${params.toString()}`);
+      setProducts(res.data.data);
+    } catch (err) {
+      setError('Failed to load products');
+    } finally {
+      setLoading(false);
+    }
+  }, [keyword, category, minPrice, maxPrice]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await api.get('/products');
-        setProducts(res.data.data);
-      } catch (err) {
-        setError('Failed to load products');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    fetchProducts();
+  };
 
-  if (error) {
-    return (
-      <div className="text-center text-danger p-8 bg-danger/10 rounded-xl max-w-4xl mx-auto">
-        {error}
-      </div>
-    );
-  }
+  const clearFilters = () => {
+    setKeyword('');
+    setCategory('');
+    setMinPrice('');
+    setMaxPrice('');
+  };
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-extrabold text-teal-900">Marketplace</h1>
-          <p className="text-beige-600 mt-2">Discover local items from your community</p>
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
+      
+      {/* Mobile Filter Toggle */}
+      <button 
+        className="md:hidden flex items-center justify-center gap-2 bg-beige-200 text-charcoal py-3 rounded-xl font-medium"
+        onClick={() => setIsFilterOpen(!isFilterOpen)}
+      >
+        <Filter className="w-5 h-5" /> {isFilterOpen ? 'Hide Filters' : 'Show Filters'}
+      </button>
+
+      {/* Sidebar Filters */}
+      <div className={`md:w-64 flex-shrink-0 ${isFilterOpen ? 'block' : 'hidden md:block'}`}>
+        <div className="bg-beige-50 rounded-2xl p-6 border border-beige-300 sticky top-24">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-bold text-teal-900 flex items-center gap-2">
+              <Filter className="w-5 h-5" /> Filters
+            </h2>
+            {(keyword || category || minPrice || maxPrice) && (
+              <button onClick={clearFilters} className="text-sm text-danger hover:underline">Clear</button>
+            )}
+          </div>
+
+          <form onSubmit={handleSearchSubmit} className="space-y-6">
+            {/* Search */}
+            <div>
+              <label className="block text-sm font-medium text-charcoal mb-2">Search</label>
+              <div className="relative">
+                <input 
+                  type="text"
+                  placeholder="Keywords..."
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-beige-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                />
+                <Search className="w-5 h-5 text-beige-500 absolute left-3 top-3" />
+              </div>
+            </div>
+
+            {/* Category */}
+            <div>
+              <label className="block text-sm font-medium text-charcoal mb-2">Category</label>
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input 
+                    type="radio" 
+                    name="category" 
+                    value="" 
+                    checked={category === ''} 
+                    onChange={() => setCategory('')}
+                    className="text-teal-600 focus:ring-teal-500" 
+                  />
+                  <span className="text-sm text-charcoal">All Categories</span>
+                </label>
+                {CATEGORIES.map(cat => (
+                  <label key={cat} className="flex items-center gap-2 cursor-pointer">
+                    <input 
+                      type="radio" 
+                      name="category" 
+                      value={cat} 
+                      checked={category === cat} 
+                      onChange={() => setCategory(cat)}
+                      className="text-teal-600 focus:ring-teal-500" 
+                    />
+                    <span className="text-sm text-charcoal">{cat}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Range */}
+            <div>
+              <label className="block text-sm font-medium text-charcoal mb-2">Price Range ($)</label>
+              <div className="flex items-center gap-2">
+                <input 
+                  type="number"
+                  placeholder="Min"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  className="w-full px-3 py-2 bg-white border border-beige-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+                />
+                <span className="text-beige-500">-</span>
+                <input 
+                  type="number"
+                  placeholder="Max"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  className="w-full px-3 py-2 bg-white border border-beige-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+                />
+              </div>
+            </div>
+            
+            <button type="submit" className="w-full bg-teal-600 text-white py-2.5 rounded-xl font-medium hover:bg-teal-700 transition-colors">
+              Apply Filters
+            </button>
+          </form>
         </div>
-        <Link 
-          to="/products/new" 
-          className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
-        >
-          Sell an Item
-        </Link>
       </div>
 
-      {products.length === 0 ? (
-        <div className="text-center bg-beige-50 border border-beige-300 rounded-2xl p-12">
-          <p className="text-charcoal text-lg">No products available right now.</p>
-          <p className="text-beige-600 mt-2">Be the first to list an item!</p>
+      {/* Main Content */}
+      <div className="flex-1">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-extrabold text-teal-900">Marketplace</h1>
+            <p className="text-beige-600 mt-1">Discover local items from your community</p>
+          </div>
+          <Link 
+            to="/products/new" 
+            className="hidden sm:inline-block bg-teal-600 hover:bg-teal-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+          >
+            Sell an Item
+          </Link>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {products.map((product) => (
-            <Link 
-              key={product._id} 
-              to={`/products/${product._id}`}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 transition-shadow group flex flex-col"
-            >
-              <div className="relative h-48 bg-beige-200 overflow-hidden">
-                {product.images && product.images.length > 0 ? (
-                  <img 
-                    src={product.images[0]} 
-                    alt={product.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-beige-500">
-                    No Image
-                  </div>
-                )}
-                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-teal-900 shadow-sm">
-                  ${product.price.toFixed(2)}
-                </div>
-              </div>
-              
-              <div className="p-5 flex-1 flex flex-col">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-medium bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full border border-teal-100 uppercase tracking-wider">
-                    {product.condition}
-                  </span>
-                  <span className="text-xs text-beige-600 flex items-center gap-1">
-                    <Tag className="w-3 h-3" />
-                    {product.category}
-                  </span>
-                </div>
-                
-                <h3 className="text-lg font-bold text-charcoal mb-2 line-clamp-1 group-hover:text-teal-700 transition-colors">
-                  {product.title}
-                </h3>
-                
-                <p className="text-sm text-beige-600 mb-4 line-clamp-2 flex-1">
-                  {product.description}
-                </p>
-                
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100">
-                  <div className="flex items-center gap-2">
+
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center text-danger p-8 bg-danger/10 rounded-xl">
+            {error}
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center bg-beige-50 border border-beige-300 rounded-2xl p-12">
+            <p className="text-charcoal text-lg">No products found.</p>
+            <p className="text-beige-600 mt-2">Try adjusting your search or filters.</p>
+            <button onClick={clearFilters} className="mt-4 text-teal-600 font-medium hover:underline">Clear all filters</button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <div 
+                key={product._id} 
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 transition-shadow group flex flex-col relative"
+              >
+                <Link to={`/products/${product._id}`} className="block relative h-48 bg-beige-200 overflow-hidden">
+                  {product.images && product.images.length > 0 ? (
                     <img 
-                      src={product.sellerId?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
-                      alt="Seller" 
-                      className="w-6 h-6 rounded-full border border-beige-200"
+                      src={product.images[0]} 
+                      alt={product.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <span className="text-xs font-medium text-charcoal truncate max-w-[100px]">
-                      {product.sellerId?.name || 'Unknown'}
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-beige-500">
+                      No Image
+                    </div>
+                  )}
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-teal-900 shadow-sm">
+                    ${product.price.toFixed(2)}
+                  </div>
+                </Link>
+                
+                {/* Favorite Button */}
+                <div className="absolute top-3 left-3 z-10">
+                  <FavoriteButton itemId={product._id} itemType="Product" />
+                </div>
+                
+                <Link to={`/products/${product._id}`} className="p-5 flex-1 flex flex-col">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-medium bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full border border-teal-100 uppercase tracking-wider">
+                      {product.condition}
+                    </span>
+                    <span className="text-xs text-beige-600 flex items-center gap-1">
+                      <Tag className="w-3 h-3" />
+                      {product.category}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-beige-600">
-                    <MapPin className="w-3.5 h-3.5 text-teal-500" />
-                    <span className="truncate max-w-[80px]">{product.location}</span>
+                  
+                  <h3 className="text-lg font-bold text-charcoal mb-2 line-clamp-1 group-hover:text-teal-700 transition-colors">
+                    {product.title}
+                  </h3>
+                  
+                  <p className="text-sm text-beige-600 mb-4 line-clamp-2 flex-1">
+                    {product.description}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100">
+                    <div className="flex items-center gap-2">
+                      <img 
+                        src={product.sellerId?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
+                        alt="Seller" 
+                        className="w-6 h-6 rounded-full border border-beige-200 object-cover"
+                      />
+                      <span className="text-xs font-medium text-charcoal truncate max-w-[100px]">
+                        {product.sellerId?.name || 'Unknown'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-beige-600">
+                      <MapPin className="w-3.5 h-3.5 text-teal-500" />
+                      <span className="truncate max-w-[80px]">{product.location}</span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
-            </Link>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

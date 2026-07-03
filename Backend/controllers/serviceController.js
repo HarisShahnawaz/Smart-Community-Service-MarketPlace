@@ -56,7 +56,28 @@ const createService = async (req, res, next) => {
 // @access  Public
 const getServices = async (req, res, next) => {
   try {
-    const services = await Service.find({ status: 'active' }).populate('providerId', 'name avatar ratingAvg');
+    const { keyword, category, minPrice, maxPrice } = req.query;
+    
+    let query = { status: 'active' };
+
+    if (keyword) {
+      query.$or = [
+        { title: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } }
+      ];
+    }
+
+    if (category) query.category = category;
+    
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    const services = await Service.find(query)
+      .populate('providerId', 'name avatar ratingAvg')
+      .sort({ createdAt: -1 });
     
     res.status(200).json({
       success: true,

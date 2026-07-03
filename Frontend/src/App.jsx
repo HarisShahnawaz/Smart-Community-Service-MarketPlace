@@ -19,6 +19,8 @@ import ServiceList from './pages/services/ServiceList';
 import ServiceDetail from './pages/services/ServiceDetail';
 import CreateEditService from './pages/services/CreateEditService';
 
+import FavoritesPage from './pages/FavoritesPage';
+
 function App() {
   return (
     <AuthProvider>
@@ -51,6 +53,8 @@ function App() {
             
             <Route path="services/new" element={<CreateEditService />} />
             <Route path="services/edit/:id" element={<CreateEditService />} />
+
+            <Route path="favorites" element={<FavoritesPage />} />
           </Route>
         </Route>
       </Routes>

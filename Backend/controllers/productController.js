@@ -57,8 +57,28 @@ const createProduct = async (req, res, next) => {
 // @access  Public
 const getProducts = async (req, res, next) => {
   try {
-    // Advanced filtering can be added later in Phase 6, keep it simple for now
-    const products = await Product.find({ status: 'active' }).populate('sellerId', 'name avatar ratingAvg');
+    const { keyword, category, minPrice, maxPrice } = req.query;
+    
+    let query = { status: 'active' };
+
+    if (keyword) {
+      query.$or = [
+        { title: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } }
+      ];
+    }
+
+    if (category) query.category = category;
+    
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    const products = await Product.find(query)
+      .populate('sellerId', 'name avatar ratingAvg')
+      .sort({ createdAt: -1 });
     
     res.status(200).json({
       success: true,
