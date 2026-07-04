@@ -21,6 +21,9 @@ import CreateEditService from './pages/services/CreateEditService';
 
 import FavoritesPage from './pages/FavoritesPage';
 
+import MyBookings from './pages/bookings/MyBookings';
+import BookingDetail from './pages/bookings/BookingDetail';
+
 function App() {
   return (
     <AuthProvider>
@@ -55,6 +58,9 @@ function App() {
             <Route path="services/edit/:id" element={<CreateEditService />} />
 
             <Route path="favorites" element={<FavoritesPage />} />
+
+            <Route path="bookings" element={<MyBookings />} />
+            <Route path="bookings/:id" element={<BookingDetail />} />
           </Route>
         </Route>
       </Routes>

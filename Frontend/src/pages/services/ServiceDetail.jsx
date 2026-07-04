@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import { Clock, Star, ArrowLeft, Briefcase, Edit, Trash2, Calendar, MapPin } from 'lucide-react';
+import BookingModal from '../../components/BookingModal';
 
 const ServiceDetail = () => {
   const { id } = useParams();
@@ -14,6 +15,7 @@ const ServiceDetail = () => {
   const [error, setError] = useState('');
   const [activeImage, setActiveImage] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -186,6 +188,7 @@ const ServiceDetail = () => {
 
             {!isOwner ? (
               <button 
+                onClick={() => setShowBookingModal(true)}
                 disabled={!service.availability}
                 className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3.5 px-4 rounded-xl font-bold text-lg transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -240,6 +243,13 @@ const ServiceDetail = () => {
         </div>
 
       </div>
+
+      {showBookingModal && (
+        <BookingModal 
+          service={service} 
+          onClose={() => setShowBookingModal(false)} 
+        />
+      )}
     </div>
   );
 };

@@ -37,6 +37,9 @@ const Layout = () => {
                   <Link to="/favorites" className="flex items-center hover:text-teal-200 transition-colors" title="My Favorites">
                     <Heart className="w-5 h-5" />
                   </Link>
+                  <Link to="/bookings" className="hidden sm:flex items-center hover:text-teal-200 transition-colors text-sm font-medium">
+                    Bookings
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="flex items-center bg-teal-700 hover:bg-teal-800 px-3 py-1.5 rounded-lg transition-colors text-sm font-medium"
