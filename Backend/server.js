@@ -32,12 +32,58 @@ app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/services', require('./routes/serviceRoutes'));
 app.use('/api/favorites', require('./routes/favoriteRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
+app.use('/api/messages', require('./routes/messageRoutes'));
 
-// Socket.io connection (basic setup for later)
+// Socket.io - Real-time chat
+// Map userId -> socketId for targeted message delivery
+const onlineUsers = new Map();
+
 io.on('connection', (socket) => {
-  console.log(`User connected: ${socket.id}`);
+  console.log(`Socket connected: ${socket.id}`);
+
+  // Client emits their userId after connecting so we can track them
+  socket.on('user_online', (userId) => {
+    onlineUsers.set(userId, socket.id);
+    io.emit('online_users', Array.from(onlineUsers.keys()));
+  });
+
+  // Join a conversation room
+  socket.on('join_conversation', (conversationId) => {
+    socket.join(conversationId);
+  });
+
+  // Leave a conversation room
+  socket.on('leave_conversation', (conversationId) => {
+    socket.leave(conversationId);
+  });
+
+  // Send a message in real-time
+  socket.on('send_message', (data) => {
+    // data: { conversationId, message }
+    // Broadcast to everyone in the room (except sender)
+    socket.to(data.conversationId).emit('receive_message', data.message);
+  });
+
+  // Typing indicator
+  socket.on('typing', (data) => {
+    // data: { conversationId, userId, name }
+    socket.to(data.conversationId).emit('user_typing', data);
+  });
+
+  socket.on('stop_typing', (data) => {
+    socket.to(data.conversationId).emit('user_stop_typing', data);
+  });
+
   socket.on('disconnect', () => {
-    console.log(`User disconnected: ${socket.id}`);
+    // Remove user from online map
+    for (const [userId, socketId] of onlineUsers.entries()) {
+      if (socketId === socket.id) {
+        onlineUsers.delete(userId);
+        break;
+      }
+    }
+    io.emit('online_users', Array.from(onlineUsers.keys()));
+    console.log(`Socket disconnected: ${socket.id}`);
   });
 });
 

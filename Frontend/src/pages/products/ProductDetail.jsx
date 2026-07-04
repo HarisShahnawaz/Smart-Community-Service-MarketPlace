@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
-import { MapPin, Tag, ArrowLeft, Star, Clock, User, CheckCircle, Edit, Trash2 } from 'lucide-react';
+import { getOrCreateConversation } from '../../api/messageApi';
+import { MapPin, Tag, ArrowLeft, Star, Clock, User, CheckCircle, Edit, Trash2, MessageCircle } from 'lucide-react';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -38,6 +39,15 @@ const ProductDetail = () => {
     } catch (err) {
       alert('Failed to delete product');
       setIsDeleting(false);
+    }
+  };
+
+  const handleMessage = async () => {
+    try {
+      const conversation = await getOrCreateConversation(product.sellerId._id);
+      navigate(`/chat/${conversation._id}`);
+    } catch (err) {
+      alert('Failed to start conversation');
     }
   };
 
@@ -192,8 +202,12 @@ const ProductDetail = () => {
               </div>
               
               {!isOwner && (
-                <button className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm">
-                  Contact Seller
+                <button 
+                  onClick={handleMessage}
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm flex items-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Message Seller
                 </button>
               )}
             </div>

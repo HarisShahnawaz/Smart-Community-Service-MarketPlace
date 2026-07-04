@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
-import { Clock, Star, ArrowLeft, Briefcase, Edit, Trash2, Calendar, MapPin } from 'lucide-react';
+import { getOrCreateConversation } from '../../api/messageApi';
+import { Clock, Star, ArrowLeft, Briefcase, Edit, Trash2, Calendar, MapPin, MessageCircle } from 'lucide-react';
 import BookingModal from '../../components/BookingModal';
 
 const ServiceDetail = () => {
@@ -40,6 +41,15 @@ const ServiceDetail = () => {
     } catch (err) {
       alert('Failed to delete service');
       setIsDeleting(false);
+    }
+  };
+
+  const handleMessage = async () => {
+    try {
+      const conversation = await getOrCreateConversation(service.providerId._id);
+      navigate(`/chat/${conversation._id}`);
+    } catch (err) {
+      alert('Failed to start conversation');
     }
   };
 
@@ -233,8 +243,12 @@ const ServiceDetail = () => {
               )}
 
               {!isOwner && (
-                <button className="w-full border border-teal-600 text-teal-700 hover:bg-teal-50 py-2.5 rounded-xl font-medium transition-colors">
-                  Contact Me
+                <button 
+                  onClick={handleMessage}
+                  className="w-full border border-teal-600 text-teal-700 hover:bg-teal-50 py-2.5 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Message Provider
                 </button>
               )}
             </div>

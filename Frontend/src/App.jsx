@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
@@ -24,10 +25,14 @@ import FavoritesPage from './pages/FavoritesPage';
 import MyBookings from './pages/bookings/MyBookings';
 import BookingDetail from './pages/bookings/BookingDetail';
 
+import ConversationsList from './pages/chat/ConversationsList';
+import ChatView from './pages/chat/ChatView';
+
 function App() {
   return (
     <AuthProvider>
-      <Routes>
+      <SocketProvider>
+        <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
@@ -61,9 +66,13 @@ function App() {
 
             <Route path="bookings" element={<MyBookings />} />
             <Route path="bookings/:id" element={<BookingDetail />} />
+
+            <Route path="chat" element={<ConversationsList />} />
+            <Route path="chat/:conversationId" element={<ChatView />} />
           </Route>
         </Route>
       </Routes>
+      </SocketProvider>
     </AuthProvider>
   );
 }
