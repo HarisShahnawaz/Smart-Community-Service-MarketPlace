@@ -42,6 +42,14 @@ const productSchema = new mongoose.Schema({
     type: String,
     enum: ['pending', 'active', 'rejected', 'sold'],
     default: 'pending' // Admin approval required by default
+  },
+  ratingAvg: {
+    type: Number,
+    default: 0
+  },
+  ratingCount: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true

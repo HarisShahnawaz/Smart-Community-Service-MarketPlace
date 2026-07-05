@@ -33,6 +33,8 @@ app.use('/api/services', require('./routes/serviceRoutes'));
 app.use('/api/favorites', require('./routes/favoriteRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/messages', require('./routes/messageRoutes'));
+app.use('/api/notifications', require('./routes/notificationRoutes'));
+app.use('/api/reviews', require('./routes/reviewRoutes'));
 
 // Socket.io - Real-time chat
 // Map userId -> socketId for targeted message delivery
@@ -72,6 +74,21 @@ io.on('connection', (socket) => {
 
   socket.on('stop_typing', (data) => {
     socket.to(data.conversationId).emit('user_stop_typing', data);
+  });
+
+  // Notification events
+  socket.on('notification_read', (notificationId) => {
+    // Broadcast to sender that notification was read (if needed)
+    socket.emit('notification_acknowledged', { notificationId });
+  });
+
+  // Send notification to specific user
+  socket.on('send_notification', (data) => {
+    // data: { recipientId, notification }
+    const recipientSocketId = onlineUsers.get(data.recipientId);
+    if (recipientSocketId) {
+      io.to(recipientSocketId).emit('receive_notification', data.notification);
+    }
   });
 
   socket.on('disconnect', () => {

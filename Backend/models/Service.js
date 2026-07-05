@@ -41,6 +41,14 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     enum: ['pending', 'active', 'rejected'],
     default: 'pending'
+  },
+  ratingAvg: {
+    type: Number,
+    default: 0
+  },
+  ratingCount: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true

@@ -1,6 +1,7 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LogOut, User as UserIcon, Heart, MessageCircle } from 'lucide-react';
+import Notifications from './Notifications';
 
 const Layout = () => {
   const { user, logout } = useAuth();
@@ -40,6 +41,7 @@ const Layout = () => {
                   <Link to="/chat" className="flex items-center hover:text-teal-200 transition-colors" title="Messages">
                     <MessageCircle className="w-5 h-5" />
                   </Link>
+                  <Notifications />
                   <Link to="/bookings" className="hidden sm:flex items-center hover:text-teal-200 transition-colors text-sm font-medium">
                     Bookings
                   </Link>
