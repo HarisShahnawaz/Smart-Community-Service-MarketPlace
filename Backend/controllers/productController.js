@@ -57,7 +57,7 @@ const createProduct = async (req, res, next) => {
 // @access  Public
 const getProducts = async (req, res, next) => {
   try {
-    const { keyword, category, minPrice, maxPrice } = req.query;
+    const { keyword, category, minPrice, maxPrice, page = 1, limit = 12 } = req.query;
     
     let query = { status: 'active' };
 
@@ -76,13 +76,25 @@ const getProducts = async (req, res, next) => {
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    const products = await Product.find(query)
-      .populate('sellerId', 'name avatar ratingAvg')
-      .sort({ createdAt: -1 });
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    const [products, total] = await Promise.all([
+      Product.find(query)
+        .populate('sellerId', 'name avatar ratingAvg')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum),
+      Product.countDocuments(query)
+    ]);
     
     res.status(200).json({
       success: true,
       count: products.length,
+      total,
+      page: pageNum,
+      pages: Math.ceil(total / limitNum),
       data: products
     });
   } catch (error) {

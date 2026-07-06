@@ -1,10 +1,12 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, User as UserIcon, Heart, MessageCircle } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { LogOut, User as UserIcon, Heart, MessageCircle, LayoutDashboard, Moon, Sun } from 'lucide-react';
 import Notifications from './Notifications';
 
 const Layout = () => {
   const { user, logout } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -13,8 +15,8 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-beige-100 font-sans text-charcoal">
-      <nav className="bg-teal-600 text-white shadow-md sticky top-0 z-50">
+    <div className={`min-h-screen flex flex-col font-sans ${isDark ? 'bg-gray-900 text-gray-100' : 'bg-beige-100 text-charcoal'}`}>
+      <nav className={`shadow-md sticky top-0 z-50 ${isDark ? 'bg-gray-800 text-white' : 'bg-teal-600 text-white'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex-shrink-0 flex items-center gap-6">
@@ -29,8 +31,18 @@ const Layout = () => {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-white/10 transition-colors"
+                title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
               {user ? (
                 <>
+                  <Link to="/dashboard" className="flex items-center hover:text-teal-200 transition-colors" title="Dashboard">
+                    <LayoutDashboard className="w-5 h-5" />
+                  </Link>
                   <Link to="/profile" className="flex items-center hover:text-teal-200 transition-colors">
                     <UserIcon className="w-5 h-5 mr-1" />
                     <span className="hidden sm:inline">{user.name}</span>
@@ -75,8 +87,8 @@ const Layout = () => {
         <Outlet />
       </main>
 
-      <footer className="bg-beige-200 border-t border-beige-300 py-6 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-beige-600">
+      <footer className={`border-t py-6 mt-auto ${isDark ? 'bg-gray-800 border-gray-700 text-gray-400' : 'bg-beige-200 border-beige-300 text-beige-600'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
           &copy; {new Date().getFullYear()} Smart Community Marketplace. All rights reserved.
         </div>
       </footer>

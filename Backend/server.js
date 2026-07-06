@@ -35,6 +35,8 @@ app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/messages', require('./routes/messageRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
+app.use('/api/dashboard', require('./routes/dashboardRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
 
 // Socket.io - Real-time chat
 // Map userId -> socketId for targeted message delivery

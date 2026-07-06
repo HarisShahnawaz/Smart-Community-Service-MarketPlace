@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
@@ -21,6 +22,10 @@ import ServiceDetail from './pages/services/ServiceDetail';
 import CreateEditService from './pages/services/CreateEditService';
 
 import FavoritesPage from './pages/FavoritesPage';
+import DashboardPage from './pages/DashboardPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminApprovals from './pages/admin/AdminApprovals';
 
 import MyBookings from './pages/bookings/MyBookings';
 import BookingDetail from './pages/bookings/BookingDetail';
@@ -31,8 +36,9 @@ import ChatView from './pages/chat/ChatView';
 function App() {
   return (
     <AuthProvider>
-      <SocketProvider>
-        <Routes>
+      <ThemeProvider>
+        <SocketProvider>
+          <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
@@ -53,6 +59,7 @@ function App() {
           
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
+            <Route path="dashboard" element={<DashboardPage />} />
             <Route path="profile" element={<ProfileView />} />
             <Route path="profile/edit" element={<ProfileEdit />} />
             
@@ -69,10 +76,16 @@ function App() {
 
             <Route path="chat" element={<ConversationsList />} />
             <Route path="chat/:conversationId" element={<ChatView />} />
+
+            {/* Admin Routes */}
+            <Route path="admin" element={<AdminDashboard />} />
+            <Route path="admin/users" element={<AdminUsers />} />
+            <Route path="admin/approvals" element={<AdminApprovals />} />
           </Route>
         </Route>
       </Routes>
       </SocketProvider>
+      </ThemeProvider>
     </AuthProvider>
   );
 }

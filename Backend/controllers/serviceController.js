@@ -56,7 +56,7 @@ const createService = async (req, res, next) => {
 // @access  Public
 const getServices = async (req, res, next) => {
   try {
-    const { keyword, category, minPrice, maxPrice } = req.query;
+    const { keyword, category, minPrice, maxPrice, page = 1, limit = 12 } = req.query;
     
     let query = { status: 'active' };
 
@@ -75,13 +75,25 @@ const getServices = async (req, res, next) => {
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    const services = await Service.find(query)
-      .populate('providerId', 'name avatar ratingAvg')
-      .sort({ createdAt: -1 });
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    const [services, total] = await Promise.all([
+      Service.find(query)
+        .populate('providerId', 'name avatar ratingAvg')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum),
+      Service.countDocuments(query)
+    ]);
     
     res.status(200).json({
       success: true,
       count: services.length,
+      total,
+      page: pageNum,
+      pages: Math.ceil(total / limitNum),
       data: services
     });
   } catch (error) {

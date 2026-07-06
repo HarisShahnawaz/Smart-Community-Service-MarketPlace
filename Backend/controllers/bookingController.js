@@ -54,7 +54,7 @@ const createBooking = async (req, res, next) => {
 // @access  Private
 const getMyBookings = async (req, res, next) => {
   try {
-    const { role } = req.query; // 'client' or 'provider'
+    const { role, page = 1, limit = 10 } = req.query; // 'client' or 'provider'
     
     let query = {};
     if (role === 'provider') {
@@ -64,15 +64,27 @@ const getMyBookings = async (req, res, next) => {
       query.client = req.user.id;
     }
 
-    const bookings = await Booking.find(query)
-      .populate('service', 'title price portfolioImages')
-      .populate('client', 'name avatar')
-      .populate('provider', 'name avatar')
-      .sort({ createdAt: -1 });
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    const [bookings, total] = await Promise.all([
+      Booking.find(query)
+        .populate('service', 'title price portfolioImages')
+        .populate('client', 'name avatar')
+        .populate('provider', 'name avatar')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum),
+      Booking.countDocuments(query)
+    ]);
 
     res.status(200).json({
       success: true,
       count: bookings.length,
+      total,
+      page: pageNum,
+      pages: Math.ceil(total / limitNum),
       data: bookings
     });
   } catch (error) {
