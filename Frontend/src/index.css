@@ -1,30 +1,57 @@
 @import "tailwindcss";
 
 @theme {
-  /* Teal - primary brand color */
-  --color-teal-50: #f0fdfa;
-  --color-teal-100: #ccfbf1;
-  --color-teal-200: #99f6e4;
-  --color-teal-300: #5eead4;
-  --color-teal-400: #2dd4bf;
-  --color-teal-500: #14b8a6;
-  --color-teal-600: #0d9488;   /* primary buttons, links, active states */
-  --color-teal-700: #0f766e;   /* hover states */
-  --color-teal-800: #115e59;
-  --color-teal-900: #134e4a;   /* headings, dark text accents */
+  /* Primary Brand Color - Teal */
+  --color-brand-50: #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-200: #99f6e4;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2dd4bf;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;   /* primary buttons, links, active states (light mode) */
+  --color-brand-700: #0f766e;   /* hover states */
+  --color-brand-800: #115e59;
+  --color-brand-900: #134e4a;
 
-  /* Beige - background & neutral surface color */
-  --color-beige-50: #fdfcfb;
-  --color-beige-100: #f7f3ee;   /* page background */
-  --color-beige-200: #efe6db;   /* card/section background */
-  --color-beige-300: #e3d5c3;   /* borders, dividers */
-  --color-beige-400: #d1bda3;
-  --color-beige-500: #b89b7a;   /* muted text, secondary elements */
-  --color-beige-600: #96795c;
+  /* Neutral Base - Cool Slate */
+  --color-slate-50: #F8FAFC;   /* page background (light mode) */
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;   /* borders, dividers (light mode) */
+  --color-slate-300: #CBD5E1;
+  --color-slate-400: #94A3B8;   /* secondary text (dark mode) */
+  --color-slate-500: #64748B;   /* secondary text (light mode) */
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #2E323A;   /* borders (dark mode) */
+  --color-slate-900: #1E293B;   /* primary text (light mode) */
 
-  /* Supporting neutrals */
-  --color-charcoal: #2b2b28;    /* body text */
-  --color-success: #4d9078;
-  --color-warning: #c9973f;
-  --color-danger: #c1584a;
+  /* Dark Mode Surfaces */
+  --color-dark-bg: #0F1115;     /* page background (dark mode) */
+  --color-dark-surface: #1A1D23; /* card surface (dark mode) */
+  --color-dark-border: #2E323A; /* borders (dark mode) */
+
+  /* Accent Color - Warm Amber/Gold */
+  --color-accent-50: #FFFBEB;
+  --color-accent-100: #FEF3C7;
+  --color-accent-200: #FDE68A;
+  --color-accent-300: #FCD34D;
+  --color-accent-400: #FBBF24;  /* badges, highlights (dark mode) */
+  --color-accent-500: #F59E0B;  /* badges, highlights (light mode) */
+  --color-accent-600: #D97706;
+  --color-accent-700: #B45309;
+  --color-accent-800: #92400E;
+  --color-accent-900: #78350F;
+
+  /* Status Colors */
+  --color-success: #10B981;     /* emerald-500 */
+  --color-warning: #F59E0B;     /* amber-500 */
+  --color-danger: #EF4444;      /* red-500 */
+
+  /* Dark Mode Text */
+  --color-dark-text-primary: #F1F5F9;  /* slate-100 */
+  --color-dark-text-secondary: #94A3B8; /* slate-400 */
+
+  /* Light Mode Text */
+  --color-light-text-primary: #1E293B;  /* slate-800 */
+  --color-light-text-secondary: #64748B; /* slate-500 */
 }
