@@ -25,10 +25,10 @@ const Layout = () => {
               <Link to="/" className="font-bold text-xl tracking-tight">
                 Smart Community
               </Link>
-              <Link to="/products" className="hidden sm:block text-brand-50 hover:text-white font-medium transition-colors">
+              <Link to="/products" className="hidden sm:block text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors">
                 Marketplace
               </Link>
-              <Link to="/services" className="hidden sm:block text-brand-50 hover:text-white font-medium transition-colors">
+              <Link to="/services" className="hidden sm:block text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors">
                 Services
               </Link>
             </div>
@@ -44,26 +44,26 @@ const Layout = () => {
               </button>
               {user ? (
                 <>
-                  <Link to="/dashboard" className="flex items-center hover:text-brand-200 transition-colors" title="Dashboard">
+                  <Link to="/dashboard" className="flex items-center hover:text-brand-200 dark:hover:text-dark-brand transition-colors" title="Dashboard">
                     <LayoutDashboard className="w-5 h-5" />
                   </Link>
-                  <Link to="/profile" className="flex items-center hover:text-brand-200 transition-colors">
+                  <Link to="/profile" className="flex items-center hover:text-brand-200 dark:hover:text-dark-brand transition-colors">
                     <UserIcon className="w-5 h-5 mr-1" />
                     <span className="hidden sm:inline">{user.name}</span>
                   </Link>
-                  <Link to="/favorites" className="flex items-center hover:text-brand-200 transition-colors" title="My Favorites">
+                  <Link to="/favorites" className="flex items-center hover:text-brand-200 dark:hover:text-dark-brand transition-colors" title="My Favorites">
                     <Heart className="w-5 h-5" />
                   </Link>
-                  <Link to="/chat" className="flex items-center hover:text-brand-200 transition-colors" title="Messages">
+                  <Link to="/chat" className="flex items-center hover:text-brand-200 dark:hover:text-dark-brand transition-colors" title="Messages">
                     <MessageCircle className="w-5 h-5" />
                   </Link>
                   <Notifications />
-                  <Link to="/bookings" className="hidden sm:flex items-center hover:text-brand-200 transition-colors text-sm font-medium">
+                  <Link to="/bookings" className="hidden sm:flex items-center hover:text-brand-200 dark:hover:text-dark-brand transition-colors text-sm font-medium">
                     Bookings
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center bg-brand-700 hover:bg-brand-800 px-3 py-1.5 rounded-lg transition-colors text-sm font-medium"
+                    className="flex items-center bg-brand-700 hover:bg-brand-800 dark:bg-dark-brand dark:hover:bg-dark-brand-hover dark:text-dark-bg px-3 py-1.5 rounded-lg transition-colors text-sm font-medium"
                   >
                     <LogOut className="w-4 h-4 mr-1" />
                     Logout
@@ -71,12 +71,12 @@ const Layout = () => {
                 </>
               ) : (
                 <>
-                  <Link to="/login" className="hover:text-brand-200 transition-colors font-medium">
+                  <Link to="/login" className="hover:text-brand-200 dark:hover:text-dark-brand transition-colors font-medium">
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-white text-brand-700 hover:bg-brand-50 px-4 py-2 rounded-lg font-medium transition-colors shadow-sm"
+                    className="bg-white text-brand-700 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-2 rounded-lg font-medium transition-colors shadow-sm"
                   >
                     Sign Up
                   </Link>
@@ -95,18 +95,18 @@ const Layout = () => {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-white/20">
+            <div className="md:hidden py-4 border-t border-white/20 dark:border-dark-border">
               <div className="flex flex-col space-y-3">
-                <Link to="/products" className="text-brand-50 hover:text-white font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="/products" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
                   Marketplace
                 </Link>
-                <Link to="/services" className="text-brand-50 hover:text-white font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="/services" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
                   Services
                 </Link>
-                <div className="border-t border-white/20 pt-3 mt-3">
+                <div className="border-t border-white/20 dark:border-dark-border pt-3 mt-3">
                   <button
                     onClick={toggleTheme}
-                    className="flex items-center gap-2 text-brand-50 hover:text-white font-medium transition-colors w-full"
+                    className="flex items-center gap-2 text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors w-full"
                   >
                     {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                     {isDark ? 'Light Mode' : 'Dark Mode'}
@@ -114,28 +114,28 @@ const Layout = () => {
                 </div>
                 {user ? (
                   <>
-                    <Link to="/dashboard" className="text-brand-50 hover:text-white font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/dashboard" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                       <LayoutDashboard className="w-5 h-5" />
                       Dashboard
                     </Link>
-                    <Link to="/profile" className="text-brand-50 hover:text-white font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/profile" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                       <UserIcon className="w-5 h-5" />
                       Profile
                     </Link>
-                    <Link to="/favorites" className="text-brand-50 hover:text-white font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/favorites" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                       <Heart className="w-5 h-5" />
                       Favorites
                     </Link>
-                    <Link to="/chat" className="text-brand-50 hover:text-white font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/chat" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                       <MessageCircle className="w-5 h-5" />
                       Messages
                     </Link>
-                    <Link to="/bookings" className="text-brand-50 hover:text-white font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/bookings" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
                       Bookings
                     </Link>
                     <button
                       onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                      className="flex items-center bg-brand-700 hover:bg-brand-800 px-4 py-2 rounded-lg transition-colors text-sm font-medium w-full"
+                      className="flex items-center bg-brand-700 hover:bg-brand-800 dark:bg-dark-brand dark:hover:bg-dark-brand-hover dark:text-dark-bg px-4 py-2 rounded-lg transition-colors text-sm font-medium w-full"
                     >
                       <LogOut className="w-4 h-4 mr-2" />
                       Logout
@@ -143,12 +143,12 @@ const Layout = () => {
                   </>
                 ) : (
                   <>
-                    <Link to="/login" className="text-brand-50 hover:text-white font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/login" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium transition-colors" onClick={() => setMobileMenuOpen(false)}>
                       Login
                     </Link>
                     <Link
                       to="/register"
-                      className="bg-white text-brand-700 hover:bg-brand-50 px-4 py-2 rounded-lg font-medium transition-colors shadow-sm text-center"
+                      className="bg-white text-brand-700 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-2 rounded-lg font-medium transition-colors shadow-sm text-center"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign Up
@@ -165,53 +165,53 @@ const Layout = () => {
         <Outlet />
       </main>
 
-      <footer className={`border-t mt-auto ${isDark ? 'bg-dark-surface border-dark-border text-slate-400' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
+      <footer className={`border-t mt-auto ${isDark ? 'bg-dark-surface border-dark-border text-dark-text-secondary' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             {/* Company Column */}
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white mb-4">Company</h3>
+              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Company</h3>
               <ul className="space-y-2">
-                <li><Link to="#" className="hover:text-brand-600 transition-colors">About Us</Link></li>
-                <li><Link to="#" className="hover:text-brand-600 transition-colors">Careers</Link></li>
-                <li><Link to="#" className="hover:text-brand-600 transition-colors">Press</Link></li>
-                <li><Link to="#" className="hover:text-brand-600 transition-colors">Blog</Link></li>
+                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">About Us</Link></li>
+                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Careers</Link></li>
+                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Press</Link></li>
+                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Blog</Link></li>
               </ul>
             </div>
 
             {/* Quick Links Column */}
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white mb-4">Quick Links</h3>
+              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Quick Links</h3>
               <ul className="space-y-2">
-                <li><Link to="/products" className="hover:text-brand-600 transition-colors">Marketplace</Link></li>
-                <li><Link to="/services" className="hover:text-brand-600 transition-colors">Services</Link></li>
-                <li><Link to="/favorites" className="hover:text-brand-600 transition-colors">Favorites</Link></li>
-                <li><Link to="/bookings" className="hover:text-brand-600 transition-colors">My Bookings</Link></li>
+                <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Marketplace</Link></li>
+                <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Services</Link></li>
+                <li><Link to="/favorites" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Favorites</Link></li>
+                <li><Link to="/bookings" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">My Bookings</Link></li>
               </ul>
             </div>
 
             {/* Categories Column */}
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white mb-4">Categories</h3>
+              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Categories</h3>
               <ul className="space-y-2">
-                <li><Link to="/products" className="hover:text-brand-600 transition-colors">Electronics</Link></li>
-                <li><Link to="/products" className="hover:text-brand-600 transition-colors">Furniture</Link></li>
-                <li><Link to="/services" className="hover:text-brand-600 transition-colors">Web Development</Link></li>
-                <li><Link to="/services" className="hover:text-brand-600 transition-colors">Graphic Design</Link></li>
+                <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Electronics</Link></li>
+                <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Furniture</Link></li>
+                <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Web Development</Link></li>
+                <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Graphic Design</Link></li>
               </ul>
             </div>
 
             {/* Contact Column */}
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white mb-4">Contact</h3>
+              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Contact</h3>
               <ul className="space-y-2">
                 <li className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  <Link to="mailto:support@smartcommunity.com" className="hover:text-brand-600 transition-colors">support@smartcommunity.com</Link>
+                  <Link to="mailto:support@smartcommunity.com" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">support@smartcommunity.com</Link>
                 </li>
               </ul>
               <div className="flex gap-4 mt-4">
-                <a href="#" className="hover:text-brand-600 transition-colors" aria-label="Email">
+                <a href="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors" aria-label="Email">
                   <Mail className="w-5 h-5" />
                 </a>
               </div>

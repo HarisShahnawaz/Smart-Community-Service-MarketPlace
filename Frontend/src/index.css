@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Primary Brand Color - Teal */
   --color-brand-50: #f0fdfa;
@@ -25,10 +27,16 @@
   --color-slate-800: #2E323A;   /* borders (dark mode) */
   --color-slate-900: #1E293B;   /* primary text (light mode) */
 
-  /* Dark Mode Surfaces */
-  --color-dark-bg: #0F1115;     /* page background (dark mode) */
-  --color-dark-surface: #1A1D23; /* card surface (dark mode) */
-  --color-dark-border: #2E323A; /* borders (dark mode) */
+  /* Layered Dark Background System */
+  --color-dark-bg: #090d0c;                 /* deepest brand-tinted (Teal) background */
+  --color-dark-surface: #141c1b;            /* card/section surfaces (one step lighter) */
+  --color-dark-surface-elevated: #1e2927;   /* elevated elements: dropdowns, modals, popovers */
+  --color-dark-border: rgba(255, 255, 255, 0.08); /* low-opacity white border */
+
+  /* Adjusted Brand & Accent Colors for Dark Mode */
+  --color-dark-brand: #2db5ae;              /* lighter, slightly desaturated brand teal */
+  --color-dark-brand-hover: #35c2bb;        /* brand hover state in dark mode */
+  --color-dark-accent: #fbbf24;             /* warm gold accent for star ratings and badges in dark mode */
 
   /* Accent Color - Warm Amber/Gold */
   --color-accent-50: #FFFBEB;
@@ -47,9 +55,9 @@
   --color-warning: #F59E0B;     /* amber-500 */
   --color-danger: #EF4444;      /* red-500 */
 
-  /* Dark Mode Text */
-  --color-dark-text-primary: #F1F5F9;  /* slate-100 */
-  --color-dark-text-secondary: #94A3B8; /* slate-400 */
+  /* Dark Mode Text Hierarchy */
+  --color-dark-text-primary: #e6eae9;       /* soft off-white text */
+  --color-dark-text-secondary: #8fa3a0;     /* brand-tinted muted gray text */
 
   /* Light Mode Text */
   --color-light-text-primary: #1E293B;  /* slate-800 */
