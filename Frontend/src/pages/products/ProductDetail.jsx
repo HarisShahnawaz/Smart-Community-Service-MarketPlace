@@ -31,13 +31,13 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this listing?')) return;
+    if (!window.confirm('Are you sure you want to delete this listing? This action cannot be undone.')) return;
     setIsDeleting(true);
     try {
       await api.delete(`/products/${id}`);
       navigate('/products');
     } catch (err) {
-      alert('Failed to delete product');
+      alert('Failed to delete product. Please try again.');
       setIsDeleting(false);
     }
   };
@@ -47,14 +47,14 @@ const ProductDetail = () => {
       const conversation = await getOrCreateConversation(product.sellerId._id);
       navigate(`/chat/${conversation._id}`);
     } catch (err) {
-      alert('Failed to start conversation');
+      alert('Unable to start conversation. Please try again later.');
     }
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-4 border-slate-200 dark:border-slate-700 border-t-brand-600 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -70,15 +70,15 @@ const ProductDetail = () => {
   const isOwner = currentUser && (currentUser._id === product.sellerId._id || currentUser.role === 'admin');
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <Link to="/products" className="inline-flex items-center text-teal-600 hover:text-teal-800 font-medium mb-6 transition-colors">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Link to="/products" className="inline-flex items-center text-brand-600 hover:text-brand-700 font-medium mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Marketplace
       </Link>
 
       {/* Admin/Owner Controls */}
       {isOwner && (
-        <div className="bg-beige-50 border border-beige-300 rounded-xl p-4 mb-6 flex justify-between items-center shadow-sm">
+        <div className="bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-xl p-4 mb-6 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm">
           <div className="flex items-center gap-2">
             <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
               product.status === 'active' ? 'bg-success/20 text-success border border-success/30' :
@@ -87,12 +87,12 @@ const ProductDetail = () => {
             }`}>
               {product.status}
             </span>
-            <span className="text-sm text-beige-600 font-medium">Status</span>
+            <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Status</span>
           </div>
           <div className="flex gap-3">
             <Link 
               to={`/products/edit/${product._id}`}
-              className="flex items-center gap-2 bg-beige-200 hover:bg-beige-300 text-charcoal px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+              className="flex items-center gap-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg transition-colors text-sm font-medium"
             >
               <Edit className="w-4 h-4" /> Edit
             </Link>
@@ -107,11 +107,11 @@ const ProductDetail = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-2xl shadow-sm border border-beige-300 overflow-hidden flex flex-col md:flex-row">
+      <div className="bg-white dark:bg-dark-surface rounded-2xl shadow-sm border border-slate-200 dark:border-dark-border overflow-hidden flex flex-col md:flex-row">
         
         {/* Left: Images */}
-        <div className="md:w-1/2 p-6 border-b md:border-b-0 md:border-r border-beige-200 bg-beige-50">
-          <div className="aspect-square bg-white rounded-xl overflow-hidden mb-4 border border-beige-200">
+        <div className="md:w-1/2 p-4 sm:p-6 border-b md:border-b-0 md:border-r border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-bg">
+          <div className="aspect-square bg-white dark:bg-dark-surface rounded-xl overflow-hidden mb-4 border border-slate-200 dark:border-dark-border">
             {product.images && product.images.length > 0 ? (
               <img 
                 src={product.images[activeImage]} 
@@ -119,7 +119,7 @@ const ProductDetail = () => {
                 className="w-full h-full object-contain"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-beige-400">
+              <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600">
                 No images available
               </div>
             )}
@@ -132,7 +132,7 @@ const ProductDetail = () => {
                   key={idx}
                   onClick={() => setActiveImage(idx)}
                   className={`w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all ${
-                    activeImage === idx ? 'border-teal-600 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
+                    activeImage === idx ? 'border-brand-600 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
                   }`}
                 >
                   <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
@@ -143,56 +143,56 @@ const ProductDetail = () => {
         </div>
 
         {/* Right: Details */}
-        <div className="md:w-1/2 p-6 md:p-8 flex flex-col">
+        <div className="md:w-1/2 p-4 sm:p-6 md:p-8 flex flex-col">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h1 className="text-3xl font-extrabold text-charcoal mb-2 leading-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">
                 {product.title}
               </h1>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-beige-600">
-                <span className="flex items-center gap-1 bg-beige-100 px-2 py-1 rounded-md">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                <span className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
                   <Tag className="w-4 h-4" /> {product.category}
                 </span>
-                <span className="flex items-center gap-1 bg-beige-100 px-2 py-1 rounded-md">
+                <span className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
                   <CheckCircle className="w-4 h-4" /> Condition: <span className="capitalize">{product.condition}</span>
                 </span>
-                <span className="flex items-center gap-1 bg-beige-100 px-2 py-1 rounded-md">
+                <span className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
                   <Clock className="w-4 h-4" /> {new Date(product.createdAt).toLocaleDateString()}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="text-4xl font-bold text-teal-700 mb-6">
+          <div className="text-3xl sm:text-4xl font-bold text-brand-600 mb-6">
             ${product.price.toFixed(2)}
           </div>
 
-          <div className="prose prose-teal max-w-none mb-8">
-            <h3 className="text-lg font-bold text-charcoal border-b border-beige-200 pb-2 mb-3">Description</h3>
-            <p className="text-charcoal whitespace-pre-line leading-relaxed">
+          <div className="prose prose-slate dark:prose-invert max-w-none mb-8">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-dark-border pb-2 mb-3">Description</h3>
+            <p className="text-slate-600 dark:text-slate-300 whitespace-pre-line leading-relaxed">
               {product.description}
             </p>
           </div>
 
           {/* Seller Card */}
-          <div className="mt-auto pt-6 border-t border-beige-200">
-            <h3 className="text-sm font-bold text-beige-600 uppercase tracking-wider mb-4">About the Seller</h3>
-            <div className="flex items-center justify-between bg-beige-50 p-4 rounded-xl border border-beige-200">
+          <div className="mt-auto pt-6 border-t border-slate-200 dark:border-dark-border">
+            <h3 className="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-4">About the Seller</h3>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-50 dark:bg-dark-bg p-4 rounded-xl border border-slate-200 dark:border-dark-border">
               <div className="flex items-center gap-4">
                 <Link to={`/profile/${product.sellerId._id}`}>
                   <img 
                     src={product.sellerId.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
                     alt={product.sellerId.name} 
-                    className="w-14 h-14 rounded-full border-2 border-white shadow-sm object-cover"
+                    className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-600 shadow-sm object-cover"
                   />
                 </Link>
                 <div>
-                  <Link to={`/profile/${product.sellerId._id}`} className="font-bold text-lg text-charcoal hover:text-teal-700 transition-colors">
+                  <Link to={`/profile/${product.sellerId._id}`} className="font-bold text-lg text-slate-900 dark:text-white hover:text-brand-600 transition-colors">
                     {product.sellerId.name}
                   </Link>
-                  <div className="flex items-center gap-4 text-sm text-beige-600 mt-1">
+                  <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
                     <span className="flex items-center gap-1">
-                      <Star className="w-4 h-4 text-warning" /> {product.sellerId.ratingAvg?.toFixed(1) || 0}
+                      <Star className="w-4 h-4 text-accent-500" /> {product.sellerId.ratingAvg?.toFixed(1) || 0}
                     </span>
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" /> {product.location}
@@ -204,7 +204,7 @@ const ProductDetail = () => {
               {!isOwner && (
                 <button 
                   onClick={handleMessage}
-                  className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm flex items-center gap-2"
+                  className="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4" />
                   Message Seller

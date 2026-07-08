@@ -20,7 +20,7 @@ const Home = () => {
                 Your Local <span className="text-brand-600">Marketplace</span> & <span className="text-accent-500">Services</span> Hub
               </h1>
               <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-xl mx-auto lg:mx-0">
-                Discover amazing products from your neighbors and connect with skilled professionals. Buy, sell, and get things done — all in one trusted community.
+                Discover amazing products from your neighbors and connect with skilled professionals. Buy, sell, and get things done — all in one trusted community. Whether you're looking for a vintage camera, a reliable plumber, or a web developer, we make it easy to find what you need with verified providers and secure payments.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
@@ -124,20 +124,21 @@ const Home = () => {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 text-center">Browse by Category</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { name: 'Web Development', icon: '💻', color: 'bg-blue-100 text-blue-600' },
-              { name: 'Graphic Design', icon: '🎨', color: 'bg-purple-100 text-purple-600' },
-              { name: 'Home Services', icon: '🏠', color: 'bg-green-100 text-green-600' },
-              { name: 'Tutoring', icon: '📚', color: 'bg-yellow-100 text-yellow-600' },
-              { name: 'Electronics', icon: '📱', color: 'bg-red-100 text-red-600' },
-              { name: 'Furniture', icon: '🪑', color: 'bg-orange-100 text-orange-600' },
+              { name: 'Full-Stack Web Development', icon: '💻', color: 'bg-blue-100 text-blue-600', desc: 'React, Node.js & Custom APIs' },
+              { name: 'Graphic Design & Branding', icon: '🎨', color: 'bg-purple-100 text-purple-600', desc: 'Logos, UI/UX & Marketing' },
+              { name: 'Home Repair Services', icon: '🏠', color: 'bg-green-100 text-green-600', desc: 'Plumbing, Electrical & More' },
+              { name: 'Academic Tutoring', icon: '📚', color: 'bg-yellow-100 text-yellow-600', desc: 'Math, Science & Languages' },
+              { name: 'Electronics & Gadgets', icon: '📱', color: 'bg-red-100 text-red-600', desc: 'Phones, Laptops & Accessories' },
+              { name: 'Furniture & Home Decor', icon: '🪑', color: 'bg-orange-100 text-orange-600', desc: 'Sofas, Tables & Artwork' },
             ].map((category, index) => (
               <Link
                 key={index}
                 to="/products"
-                className="group flex flex-col items-center p-6 bg-slate-50 dark:bg-dark-bg rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-all hover:shadow-lg"
+                className="group flex flex-col items-center p-4 sm:p-6 bg-slate-50 dark:bg-dark-bg rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-all hover:shadow-lg"
               >
-                <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">{category.icon}</span>
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300 text-center">{category.name}</span>
+                <span className="text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform">{category.icon}</span>
+                <span className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 text-center">{category.name}</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 text-center mt-1">{category.desc}</span>
               </Link>
             ))}
           </div>
@@ -155,10 +156,10 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: 'Vintage Camera Collection', price: 450, rating: 4.8, seller: 'John D.', image: '📷' },
-              { title: 'Modern Office Desk', price: 200, rating: 4.5, seller: 'Jane S.', image: '🪑' },
-              { title: 'Gaming Laptop', price: 1200, rating: 5.0, seller: 'Bob J.', image: '💻' },
-              { title: 'Mountain Bike', price: 350, rating: 4.7, seller: 'Alice W.', image: '🚴' },
+              { title: 'Vintage Canon AE-1 Camera Set', price: 450, rating: 4.8, seller: 'John D.', image: '📷', condition: 'Excellent', location: 'Downtown' },
+              { title: 'Modern Oak Office Desk', price: 200, rating: 4.5, seller: 'Jane S.', image: '🪑', condition: 'Like New', location: 'Westside' },
+              { title: 'ASUS ROG Gaming Laptop', price: 1200, rating: 5.0, seller: 'Bob J.', image: '💻', condition: 'New', location: 'Tech District' },
+              { title: 'Trek Mountain Bike', price: 350, rating: 4.7, seller: 'Alice W.', image: '🚴', condition: 'Good', location: 'Eastside' },
             ].map((item, index) => (
               <Link key={index} to="/products" className="group">
                 <div className="bg-white dark:bg-dark-surface rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
@@ -167,6 +168,7 @@ const Home = () => {
                   </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-slate-900 dark:text-white mb-1 truncate">{item.title}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{item.condition} • {item.location}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-bold text-brand-600">${item.price}</span>
                       <div className="flex items-center gap-1">
@@ -189,9 +191,9 @@ const Home = () => {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-12 text-center">How It Works</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { step: '01', title: 'Browse & Discover', desc: 'Explore hundreds of local products and services from trusted community members.' },
-              { step: '02', title: 'Book or Buy', desc: 'Purchase products directly or book services with secure payments and scheduling.' },
-              { step: '03', title: 'Chat & Get It Done', desc: 'Communicate with sellers and providers, track progress, and get things done.' },
+              { step: '01', title: 'Browse & Discover', desc: 'Explore hundreds of local products and services from trusted community members. Filter by category, location, price, and ratings to find exactly what you need. Read detailed descriptions and reviews before making your choice.' },
+              { step: '02', title: 'Book or Buy', desc: 'Purchase products directly through our secure payment system or book services with flexible scheduling. For services, communicate your requirements upfront and agree on deliverables before payment. Your money is held safely until the work is completed.' },
+              { step: '03', title: 'Chat & Get It Done', desc: 'Use our built-in messaging to coordinate with sellers and service providers. Track your order status, share files, and get real-time updates. Once your service is complete or product delivered, leave a review to help others in the community.' },
             ].map((item, index) => (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -211,9 +213,9 @@ const Home = () => {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 text-center">What Our Community Says</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Sarah M.', rating: 5, text: 'Found an amazing web developer here. The process was smooth and the quality exceeded my expectations!' },
-              { name: 'Mike R.', rating: 5, text: 'Sold my old furniture in just 2 days. The community here is trustworthy and responsive.' },
-              { name: 'Emily K.', rating: 4, text: 'Great platform for both buying and selling. The review system helps make informed decisions.' },
+              { name: 'Sarah Ahmed', role: 'Small Business Owner, Lahore', rating: 5, text: 'I needed a professional website for my bakery but couldn\'t afford agency prices. Found an amazing web developer here who understood my vision perfectly. The process was smooth, communication was excellent, and the final quality exceeded my expectations. My online orders have tripled since launch!' },
+              { name: 'Michael Roberts', role: 'Freelance Designer, Karachi', rating: 5, text: 'Sold my old furniture in just 2 days when I was moving apartments. The community here is trustworthy and responsive — I got multiple genuine inquiries and the buyer was punctual for pickup. Much better than dealing with strangers on other platforms.' },
+              { name: 'Emily Khan', role: 'Student, Islamabad', rating: 4, text: 'Found an excellent math tutor through this platform when I was struggling with calculus. The hourly rates were reasonable compared to private coaching centers, and being able to read reviews from other students gave me confidence in my choice. Great for finding specialized help!' },
             ].map((testimonial, index) => (
               <div key={index} className="bg-white dark:bg-dark-surface rounded-xl p-6 shadow-sm">
                 <div className="flex items-center gap-1 mb-3">
@@ -221,8 +223,67 @@ const Home = () => {
                     <Star key={i} className="w-4 h-4 fill-accent-500 text-accent-500" />
                   ))}
                 </div>
-                <p className="text-slate-600 dark:text-slate-400 mb-4">"{testimonial.text}"</p>
-                <p className="font-semibold text-slate-900 dark:text-white">— {testimonial.name}</p>
+                <p className="text-slate-600 dark:text-slate-400 mb-4 text-sm leading-relaxed">"{testimonial.text}"</p>
+                <p className="font-semibold text-slate-900 dark:text-white text-sm">— {testimonial.name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{testimonial.role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About the Platform Section */}
+      <section className="py-16 bg-white dark:bg-dark-surface">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 text-center">About Smart Community Marketplace</h2>
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed mb-6">
+              Smart Community Marketplace was built to solve a simple problem: finding trusted local services and quality second-hand products shouldn't require scrolling through dozens of Facebook groups or relying on word-of-mouth recommendations. We're creating a transparent, review-based marketplace where your community members become your trusted network.
+            </p>
+            <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed mb-6">
+              Whether you're a small business owner looking for affordable web development, a student seeking a math tutor, or someone moving apartments who needs to sell furniture quickly — our platform connects you with verified providers and genuine buyers in your area. Every provider is vetted, every transaction is secure, and every review helps build trust in the community.
+            </p>
+            <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+              We believe in the power of local communities. By keeping commerce and services within the neighborhood, we not only save money but also build relationships that last. Join thousands of users who have already discovered a better way to buy, sell, and get things done.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 bg-slate-50 dark:bg-dark-bg">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 text-center">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {[
+              {
+                q: 'How do I know a provider is trustworthy?',
+                a: 'Every service provider on our platform goes through a verification process including identity confirmation and skills assessment. Additionally, all providers have public reviews and ratings from previous clients, so you can see their track record before booking. We also hold payments in escrow until the service is completed to your satisfaction.'
+              },
+              {
+                q: 'What happens if I\'m not satisfied with a service?',
+                a: 'If a service doesn\'t meet the agreed-upon deliverables or quality standards, you can request a revision directly through our messaging system. Most providers offer 1-2 free revisions. If the issue cannot be resolved, you can open a dispute within 7 days of delivery, and our support team will mediate to find a fair solution, including potential refunds.'
+              },
+              {
+                q: 'Can I sell products and offer services at the same time?',
+                a: 'Absolutely! Many of our community members do both. You can list products in the marketplace section and offer services in the services section using the same account. Your profile will show both your product listings and service offerings, making it easy for buyers to see everything you provide.'
+              },
+              {
+                q: 'Is there a fee to join the platform?',
+                a: 'Creating an account and browsing listings is completely free. For sellers, we charge a small 5% commission on successful product sales. For service providers, there\'s a 10% service fee on completed bookings. There are no monthly subscriptions or hidden fees — you only pay when you make a sale.'
+              },
+              {
+                q: 'How are payments handled?',
+                a: 'All payments are processed securely through our platform. When you book a service, the payment is held in escrow until the provider delivers the work. For products, payment is released to the seller once you confirm receipt and are satisfied with the item. This protects both buyers and sellers throughout the transaction.'
+              },
+              {
+                q: 'Can I communicate with providers before booking?',
+                a: 'Yes! We encourage you to message providers before booking to discuss your requirements, timeline, and any questions you might have. Use our built-in messaging system to share files, clarify details, and ensure you and the provider are on the same page before making any commitments.'
+              },
+            ].map((faq, index) => (
+              <div key={index} className="bg-white dark:bg-dark-surface rounded-xl p-6 shadow-sm">
+                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">{faq.q}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>

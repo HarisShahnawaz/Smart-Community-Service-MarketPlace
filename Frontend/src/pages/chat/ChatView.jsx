@@ -180,8 +180,10 @@ const ChatView = () => {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 ? (
-          <div className="flex items-center justify-center h-full">
-            <p className="text-gray-500">No messages yet. Start the conversation!</p>
+          <div className="flex flex-col items-center justify-center h-full text-center px-4">
+            <MessageCircle className="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" />
+            <p className="text-slate-600 dark:text-slate-400 text-lg font-medium mb-2">No messages yet</p>
+            <p className="text-slate-500 dark:text-slate-500 text-sm max-w-md">Start the conversation by introducing yourself and discussing the service or product you're interested in!</p>
           </div>
         ) : (
           messages.map((message) => {

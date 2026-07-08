@@ -82,12 +82,20 @@ const ConversationsList = () => {
         </div>
 
         {conversations.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <MessageCircle className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-            <h2 className="text-xl font-semibold text-gray-600 mb-2">No conversations yet</h2>
-            <p className="text-gray-500">
-              Start a conversation by visiting a product or service profile
+          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md p-12 text-center">
+            <MessageCircle className="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">No conversations yet</h2>
+            <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+              Start a conversation by visiting a product or service profile and clicking "Message Seller" or "Message Provider" to connect with the community.
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/products" className="inline-flex items-center bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors">
+                Browse Products
+              </Link>
+              <Link to="/services" className="inline-flex items-center bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-medium transition-colors">
+                Browse Services
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">

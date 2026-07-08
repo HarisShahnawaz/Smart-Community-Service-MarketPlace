@@ -195,7 +195,14 @@ const DashboardPage = () => {
             </Link>
           </div>
           {stats?.recentBookings?.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No bookings yet</p>
+            <div className="text-center py-8">
+              <Calendar className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium mb-2">No bookings yet</p>
+              <p className="text-slate-500 dark:text-slate-500 text-sm mb-4">Browse services and book one to get started with your projects.</p>
+              <Link to="/services" className="inline-flex items-center bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                Browse Services
+              </Link>
+            </div>
           ) : (
             <div className="space-y-4">
               {stats?.recentBookings?.map((booking) => (
@@ -230,7 +237,11 @@ const DashboardPage = () => {
             </Link>
           </div>
           {stats?.recentReviews?.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No reviews yet</p>
+            <div className="text-center py-8">
+              <Star className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium mb-2">No reviews yet</p>
+              <p className="text-slate-500 dark:text-slate-500 text-sm">Complete bookings to receive reviews from clients.</p>
+            </div>
           ) : (
             <div className="space-y-4">
               {stats?.recentReviews?.map((review) => (
@@ -258,7 +269,19 @@ const DashboardPage = () => {
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 lg:col-span-2">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h2>
           {activity.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No recent activity</p>
+            <div className="text-center py-8">
+              <TrendingUp className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium mb-2">No recent activity</p>
+              <p className="text-slate-500 dark:text-slate-500 text-sm mb-4">Start by listing products, offering services, or booking services to see your activity here.</p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/products/new" className="inline-flex items-center bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                  List Product
+                </Link>
+                <Link to="/services/new" className="inline-flex items-center bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                  Offer Service
+                </Link>
+              </div>
+            </div>
           ) : (
             <div className="space-y-4">
               {activity.map((item) => (

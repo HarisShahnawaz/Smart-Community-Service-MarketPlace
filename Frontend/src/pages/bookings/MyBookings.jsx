@@ -63,16 +63,16 @@ const MyBookings = () => {
           <div className="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
         </div>
       ) : bookings.length === 0 ? (
-        <div className="text-center bg-beige-50 border border-beige-300 rounded-2xl p-16">
-          <Package className="w-16 h-16 text-beige-300 mx-auto mb-4" />
-          <p className="text-charcoal text-xl font-bold">No bookings yet</p>
-          <p className="text-beige-600 mt-2">
+        <div className="text-center bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-2xl p-12 sm:p-16">
+          <Package className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+          <p className="text-slate-900 dark:text-white text-xl font-bold mb-2">No bookings yet</p>
+          <p className="text-slate-600 dark:text-slate-400 mt-2 max-w-md mx-auto">
             {activeTab === 'client'
-              ? 'Browse services and book one to get started.'
-              : 'Once clients book your services, they\'ll appear here.'}
+              ? 'You haven\'t booked any services yet. Browse our marketplace to find a trusted provider for your next project.'
+              : 'Once clients book your services, they\'ll appear here. Keep your services active and respond quickly to inquiries!'}
           </p>
           {activeTab === 'client' && (
-            <Link to="/services" className="inline-block mt-6 bg-teal-600 text-white px-6 py-2.5 rounded-xl font-medium hover:bg-teal-700 transition-colors">
+            <Link to="/services" className="inline-flex items-center mt-6 bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors">
               Browse Services
             </Link>
           )}

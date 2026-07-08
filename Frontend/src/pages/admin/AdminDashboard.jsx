@@ -136,7 +136,11 @@ const AdminDashboard = () => {
             </Link>
           </div>
           {stats?.recentUsers?.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No users yet</p>
+            <div className="text-center py-8">
+              <Users className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium mb-2">No users yet</p>
+              <p className="text-slate-500 dark:text-slate-500 text-sm">Users will appear here once they register on the platform.</p>
+            </div>
           ) : (
             <div className="space-y-3">
               {stats?.recentUsers?.slice(0, 5).map((user) => (
@@ -170,7 +174,11 @@ const AdminDashboard = () => {
             </Link>
           </div>
           {stats?.recentBookings?.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No bookings yet</p>
+            <div className="text-center py-8">
+              <Calendar className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium mb-2">No bookings yet</p>
+              <p className="text-slate-500 dark:text-slate-500 text-sm">Bookings will appear here once users start booking services.</p>
+            </div>
           ) : (
             <div className="space-y-3">
               {stats?.recentBookings?.slice(0, 5).map((booking) => (
