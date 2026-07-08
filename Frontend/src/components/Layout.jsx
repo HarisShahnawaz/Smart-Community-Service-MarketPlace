@@ -2,7 +2,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { LogOut, User as UserIcon, Heart, MessageCircle, LayoutDashboard, Moon, Sun, Github, Twitter, Linkedin, Mail, Menu, X } from 'lucide-react';
+import { LogOut, User as UserIcon, Heart, MessageCircle, LayoutDashboard, Moon, Sun, Mail, Menu, X } from 'lucide-react';
 import Notifications from './Notifications';
 
 const Layout = () => {
@@ -211,14 +211,8 @@ const Layout = () => {
                 </li>
               </ul>
               <div className="flex gap-4 mt-4">
-                <a href="#" className="hover:text-brand-600 transition-colors" aria-label="GitHub">
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="#" className="hover:text-brand-600 transition-colors" aria-label="Twitter">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="#" className="hover:text-brand-600 transition-colors" aria-label="LinkedIn">
-                  <Linkedin className="w-5 h-5" />
+                <a href="#" className="hover:text-brand-600 transition-colors" aria-label="Email">
+                  <Mail className="w-5 h-5" />
                 </a>
               </div>
             </div>
