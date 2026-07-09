@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    if (user) {
+    if (user && !socketRef.current) {
       // Connect to the backend socket server
       socketRef.current = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000', {
         transports: ['websocket'],

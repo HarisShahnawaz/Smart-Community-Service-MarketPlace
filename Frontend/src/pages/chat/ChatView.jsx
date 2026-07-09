@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getMessages, sendMessage } from '../../api/messageApi';
 import { useSocket } from '../../context/SocketContext';
-import { ArrowLeft, Send, User } from 'lucide-react';
+import { ArrowLeft, Send, User, MessageCircle } from 'lucide-react';
 
 const ChatView = () => {
   const { conversationId } = useParams();

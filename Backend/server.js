@@ -5,7 +5,8 @@ const http = require('http');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 const { errorHandler } = require('./middleware/errorHandler');
-
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 // Load env vars
 dotenv.config();
 

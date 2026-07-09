@@ -39,7 +39,8 @@ const createService = async (req, res, next) => {
       category,
       availability: availability === 'true' || availability === true,
       portfolioImages: imageUrls,
-      providerId: req.user.id
+      providerId: req.user.id,
+      status: 'active'
     });
 
     res.status(201).json({

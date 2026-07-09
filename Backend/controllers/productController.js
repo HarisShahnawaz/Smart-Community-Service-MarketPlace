@@ -40,7 +40,8 @@ const createProduct = async (req, res, next) => {
       condition,
       location,
       images: imageUrls,
-      sellerId: req.user.id
+      sellerId: req.user.id,
+      status: 'active'
     });
 
     res.status(201).json({
