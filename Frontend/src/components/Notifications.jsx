@@ -13,8 +13,8 @@ const Notifications = () => {
     if (user) {
       fetchNotifications();
       fetchUnreadCount();
-      
-      // Poll for new notifications every 30 seconds
+
+      // Poll for new notifications every 30 second
       const interval = setInterval(() => {
         fetchUnreadCount();
       }, 30000);
@@ -44,7 +44,7 @@ const Notifications = () => {
   const handleMarkAsRead = async (notificationId) => {
     try {
       await markAsRead(notificationId);
-      setNotifications(notifications.map(n => 
+      setNotifications(notifications.map(n =>
         n._id === notificationId ? { ...n, isRead: true } : n
       ));
       setUnreadCount(Math.max(0, unreadCount - 1));
@@ -147,9 +147,8 @@ const Notifications = () => {
               notifications.map((notification) => (
                 <div
                   key={notification._id}
-                  className={`p-4 border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${
-                    !notification.isRead ? 'bg-brand-50 dark:bg-brand-900/20' : ''
-                  }`}
+                  className={`p-4 border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${!notification.isRead ? 'bg-brand-50 dark:bg-brand-900/20' : ''
+                    }`}
                 >
                   <div className="flex items-start gap-3">
                     <span className="text-2xl">{getNotificationIcon(notification.type)}</span>
