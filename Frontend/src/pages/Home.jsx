@@ -1,7 +1,35 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingCart, Briefcase, Star, Users, TrendingUp, CheckCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, ShoppingCart, Briefcase, Star, Users, MapPin } from 'lucide-react';
+import api from '../api/axios';
+
+const CATEGORY_FALLBACK = {
+  Electronics: '📱',
+  Furniture: '🪑',
+  Clothing: '👗',
+  Books: '📚',
+  Tools: '🔧',
+  Sports: '⚽',
+  Other: '📦',
+};
 
 const Home = () => {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loadingFeatured, setLoadingFeatured] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const { data } = await api.get('/products?status=active&limit=4&sort=-createdAt');
+        setFeaturedProducts(data.data?.slice(0, 4) || []);
+      } catch {
+        setFeaturedProducts([]);
+      } finally {
+        setLoadingFeatured(false);
+      }
+    };
+    fetchFeatured();
+  }, []);
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -155,32 +183,64 @@ const Home = () => {
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: 'Vintage Canon AE-1 Camera Set', price: 450, rating: 4.8, seller: 'John D.', image: '📷', condition: 'Excellent', location: 'Downtown' },
-              { title: 'Modern Oak Office Desk', price: 200, rating: 4.5, seller: 'Jane S.', image: '🪑', condition: 'Like New', location: 'Westside' },
-              { title: 'ASUS ROG Gaming Laptop', price: 1200, rating: 5.0, seller: 'Bob J.', image: '💻', condition: 'New', location: 'Tech District' },
-              { title: 'Trek Mountain Bike', price: 350, rating: 4.7, seller: 'Alice W.', image: '🚴', condition: 'Good', location: 'Eastside' },
-            ].map((item, index) => (
-              <Link key={index} to="/products" className="group">
-                <div className="bg-white dark:bg-dark-surface dark:border dark:border-dark-border rounded-xl shadow-sm hover:shadow-lg transition-all overflow-hidden">
-                  <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 dark:from-dark-surface dark:to-dark-surface-elevated flex items-center justify-center text-6xl">
-                    {item.image}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-1 truncate">{item.title}</h3>
-                    <p className="text-xs text-slate-500 dark:text-dark-text-secondary mb-2">{item.condition} • {item.location}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-brand-600 dark:text-dark-brand">${item.price}</span>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 fill-accent-500 text-accent-500 dark:fill-dark-accent dark:text-dark-accent" />
-                        <span className="text-sm font-medium">{item.rating}</span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-slate-500 dark:text-dark-text-secondary mt-2">by {item.seller}</p>
+            {loadingFeatured ? (
+              // Loading skeleton
+              [...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white dark:bg-dark-surface dark:border dark:border-dark-border rounded-xl shadow-sm overflow-hidden animate-pulse">
+                  <div className="aspect-square bg-slate-200 dark:bg-dark-surface-elevated" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 bg-slate-200 dark:bg-dark-surface-elevated rounded w-3/4" />
+                    <div className="h-3 bg-slate-100 dark:bg-dark-bg rounded w-1/2" />
+                    <div className="h-4 bg-slate-200 dark:bg-dark-surface-elevated rounded w-1/3 mt-2" />
                   </div>
                 </div>
-              </Link>
-            ))}
+              ))
+            ) : featuredProducts.length === 0 ? (
+              <div className="col-span-4 text-center py-12 text-slate-500 dark:text-dark-text-secondary">
+                <ShoppingCart className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                <p>No listings yet. <Link to="/products/new" className="text-brand-600 dark:text-dark-brand underline">Be the first to sell!</Link></p>
+              </div>
+            ) : (
+              featuredProducts.map((item) => (
+                <Link key={item._id} to={`/products/${item._id}`} className="group">
+                  <div className="bg-white dark:bg-dark-surface dark:border dark:border-dark-border rounded-xl shadow-sm hover:shadow-lg transition-all overflow-hidden">
+                    {/* Image or fallback emoji */}
+                    <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 dark:from-dark-surface dark:to-dark-surface-elevated overflow-hidden flex items-center justify-center">
+                      {item.images && item.images.length > 0 ? (
+                        <img
+                          src={item.images[0]}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <span className="text-6xl">{CATEGORY_FALLBACK[item.category] || '📦'}</span>
+                      )}
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-1 truncate">{item.title}</h3>
+                      <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-dark-text-secondary mb-2">
+                        <span className="capitalize">{item.condition}</span>
+                        <span>•</span>
+                        <MapPin className="w-3 h-3" />
+                        <span>{item.location}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-lg font-bold text-brand-600 dark:text-dark-brand">${item.price}</span>
+                        {item.ratingAvg > 0 && (
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 fill-accent-500 text-accent-500 dark:fill-dark-accent dark:text-dark-accent" />
+                            <span className="text-sm font-medium">{item.ratingAvg.toFixed(1)}</span>
+                          </div>
+                        )}
+                      </div>
+                      {item.sellerId?.name && (
+                        <p className="text-sm text-slate-500 dark:text-dark-text-secondary mt-2">by {item.sellerId.name}</p>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </section>
