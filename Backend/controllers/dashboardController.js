@@ -7,7 +7,7 @@ const User = require('../models/User');
 
 // @desc    Get user dashboard stats
 // @route   GET /api/dashboard/stats
-// @access  Private
+// @access  Privates
 const getUserStats = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -152,7 +152,7 @@ const getUserActivity = async (req, res, next) => {
       ...recentBookings.map(item => ({ ...item.toObject(), type: 'booking' })),
       ...recentReviews.map(item => ({ ...item.toObject(), type: 'review' }))
     ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-     .slice(0, limit);
+      .slice(0, limit);
 
     res.status(200).json({
       success: true,
