@@ -126,10 +126,10 @@ const ServiceList = () => {
       <div className="flex-1">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-extrabold text-teal-900">Services</h1>
-            <p className="text-beige-600 mt-1">Hire talented professionals from your community</p>
+            <h1 className="text-3xl font-extrabold text-teal-900 dark:text-dark-text-primary">Services</h1>
+            <p className="text-beige-600 dark:text-dark-text-secondary mt-1">Hire talented professionals from your community</p>
           </div>
-          <Link to="/services/new" className="hidden sm:inline-block bg-teal-600 hover:bg-teal-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm">
+          <Link to="/services/new" className="hidden sm:inline-block bg-teal-600 hover:bg-teal-700 dark:bg-dark-brand dark:hover:bg-dark-brand-hover dark:text-dark-bg text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm">
             Offer a Service
           </Link>
         </div>
@@ -141,20 +141,20 @@ const ServiceList = () => {
         ) : error ? (
           <div className="text-center text-danger p-8 bg-danger/10 rounded-xl">{error}</div>
         ) : services.length === 0 ? (
-          <div className="text-center bg-beige-50 border border-beige-300 rounded-2xl p-12">
-            <p className="text-charcoal text-lg">No services found.</p>
-            <p className="text-beige-600 mt-2">Try adjusting your search or filters.</p>
-            <button onClick={clearFilters} className="mt-4 text-teal-600 font-medium hover:underline">Clear all filters</button>
+          <div className="text-center bg-beige-50 dark:bg-dark-surface border border-beige-300 dark:border-dark-border rounded-2xl p-12">
+            <p className="text-charcoal dark:text-dark-text-primary text-lg">No services found.</p>
+            <p className="text-beige-600 dark:text-dark-text-secondary mt-2">Try adjusting your search or filters.</p>
+            <button onClick={clearFilters} className="mt-4 text-teal-600 dark:text-dark-brand font-medium hover:underline">Clear all filters</button>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
-              <div key={service._id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 transition-shadow group flex flex-col relative">
-                <Link to={`/services/${service._id}`} className="block relative h-48 bg-teal-900 overflow-hidden">
+              <div key={service._id} className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 dark:border-dark-border transition-shadow group flex flex-col relative">
+                <Link to={`/services/${service._id}`} className="block relative h-48 bg-teal-900 dark:bg-dark-surface-elevated overflow-hidden">
                   {service.portfolioImages && service.portfolioImages.length > 0 ? (
                     <img src={service.portfolioImages[0]} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-teal-200">
+                    <div className="w-full h-full flex items-center justify-center text-teal-200 dark:text-dark-text-secondary">
                       <Briefcase className="w-12 h-12 opacity-50" />
                     </div>
                   )}
@@ -178,25 +178,25 @@ const ServiceList = () => {
 
                 <Link to={`/services/${service._id}`} className="p-5 flex-1 flex flex-col">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full font-medium border border-teal-100">{service.category}</span>
+                    <span className="text-xs text-teal-700 dark:text-dark-brand bg-teal-50 dark:bg-dark-brand/10 px-2.5 py-0.5 rounded-full font-medium border border-teal-100 dark:border-dark-brand/20">{service.category}</span>
                     {service.providerId?.ratingAvg > 4.5 && (
-                      <span className="flex items-center text-xs text-warning bg-warning/10 px-2.5 py-0.5 rounded-full font-bold">
+                      <span className="flex items-center text-xs text-warning dark:text-dark-accent bg-warning/10 dark:bg-dark-accent/10 px-2.5 py-0.5 rounded-full font-bold">
                         <BadgeCheck className="w-3 h-3 mr-1" /> Top Rated
                       </span>
                     )}
                   </div>
-                  <h3 className="text-lg font-bold text-charcoal mb-2 line-clamp-2 group-hover:text-teal-700 transition-colors">{service.title}</h3>
-                  <div className="flex items-center gap-1 text-sm text-beige-600 mb-4">
-                    <Star className="w-4 h-4 text-warning" />
-                    <span className="font-bold text-charcoal">{service.providerId?.ratingAvg?.toFixed(1) || 0}</span>
+                  <h3 className="text-lg font-bold text-charcoal dark:text-dark-text-primary mb-2 line-clamp-2 group-hover:text-teal-700 dark:group-hover:text-dark-brand transition-colors">{service.title}</h3>
+                  <div className="flex items-center gap-1 text-sm text-beige-600 dark:text-dark-text-secondary mb-4">
+                    <Star className="w-4 h-4 text-warning dark:text-dark-accent" />
+                    <span className="font-bold text-charcoal dark:text-dark-text-primary">{service.providerId?.ratingAvg?.toFixed(1) || 0}</span>
                   </div>
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100">
-                    <div className="text-sm text-beige-600 flex items-center gap-1">
-                      <Clock className="w-4 h-4 text-teal-500" />
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100 dark:border-dark-border">
+                    <div className="text-sm text-beige-600 dark:text-dark-text-secondary flex items-center gap-1">
+                      <Clock className="w-4 h-4 text-teal-500 dark:text-dark-brand" />
                       Up to {service.deliveryTimeInDays} days
                     </div>
-                    <div className="text-lg font-bold text-teal-800">
-                      <span className="text-xs text-beige-600 font-normal mr-1">From</span>${service.price}
+                    <div className="text-lg font-bold text-teal-800 dark:text-dark-brand">
+                      <span className="text-xs text-beige-600 dark:text-dark-text-secondary font-normal mr-1">From</span>${service.price}
                     </div>
                   </div>
                 </Link>

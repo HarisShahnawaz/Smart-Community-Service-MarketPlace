@@ -155,12 +155,12 @@ const ProductList = () => {
       <div className="flex-1">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-extrabold text-teal-900">Marketplace</h1>
-            <p className="text-beige-600 mt-1">Discover local items from your community</p>
+            <h1 className="text-3xl font-extrabold text-teal-900 dark:text-dark-text-primary">Marketplace</h1>
+            <p className="text-beige-600 dark:text-dark-text-secondary mt-1">Discover local items from your community</p>
           </div>
           <Link 
             to="/products/new" 
-            className="hidden sm:inline-block bg-teal-600 hover:bg-teal-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+            className="hidden sm:inline-block bg-teal-600 hover:bg-teal-700 dark:bg-dark-brand dark:hover:bg-dark-brand-hover dark:text-dark-bg text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
           >
             Sell an Item
           </Link>
@@ -175,19 +175,19 @@ const ProductList = () => {
             {error}
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center bg-beige-50 border border-beige-300 rounded-2xl p-12">
-            <p className="text-charcoal text-lg">No products found.</p>
-            <p className="text-beige-600 mt-2">Try adjusting your search or filters.</p>
-            <button onClick={clearFilters} className="mt-4 text-teal-600 font-medium hover:underline">Clear all filters</button>
+          <div className="text-center bg-beige-50 dark:bg-dark-surface border border-beige-300 dark:border-dark-border rounded-2xl p-12">
+            <p className="text-charcoal dark:text-dark-text-primary text-lg">No products found.</p>
+            <p className="text-beige-600 dark:text-dark-text-secondary mt-2">Try adjusting your search or filters.</p>
+            <button onClick={clearFilters} className="mt-4 text-teal-600 dark:text-dark-brand font-medium hover:underline">Clear all filters</button>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <div 
                 key={product._id} 
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 transition-shadow group flex flex-col relative"
+                className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 dark:border-dark-border transition-shadow group flex flex-col relative"
               >
-                <Link to={`/products/${product._id}`} className="block relative h-48 bg-beige-200 overflow-hidden">
+                <Link to={`/products/${product._id}`} className="block relative h-48 bg-beige-200 dark:bg-dark-surface-elevated overflow-hidden">
                   {product.images && product.images.length > 0 ? (
                     <img 
                       src={product.images[0]} 
@@ -195,11 +195,11 @@ const ProductList = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-beige-500">
+                    <div className="w-full h-full flex items-center justify-center text-beige-500 dark:text-dark-text-secondary">
                       No Image
                     </div>
                   )}
-                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-teal-900 shadow-sm">
+                  <div className="absolute top-3 right-3 bg-white/90 dark:bg-dark-surface-elevated/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-teal-900 dark:text-dark-brand shadow-sm">
                     ${product.price.toFixed(2)}
                   </div>
                 </Link>
@@ -211,36 +211,36 @@ const ProductList = () => {
                 
                 <Link to={`/products/${product._id}`} className="p-5 flex-1 flex flex-col">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-medium bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full border border-teal-100 uppercase tracking-wider">
+                    <span className="text-xs font-medium bg-teal-50 dark:bg-dark-brand/10 text-teal-700 dark:text-dark-brand px-2.5 py-0.5 rounded-full border border-teal-100 dark:border-dark-brand/20 uppercase tracking-wider">
                       {product.condition}
                     </span>
-                    <span className="text-xs text-beige-600 flex items-center gap-1">
+                    <span className="text-xs text-beige-600 dark:text-dark-text-secondary flex items-center gap-1">
                       <Tag className="w-3 h-3" />
                       {product.category}
                     </span>
                   </div>
                   
-                  <h3 className="text-lg font-bold text-charcoal mb-2 line-clamp-1 group-hover:text-teal-700 transition-colors">
+                  <h3 className="text-lg font-bold text-charcoal dark:text-dark-text-primary mb-2 line-clamp-1 group-hover:text-teal-700 dark:group-hover:text-dark-brand transition-colors">
                     {product.title}
                   </h3>
                   
-                  <p className="text-sm text-beige-600 mb-4 line-clamp-2 flex-1">
+                  <p className="text-sm text-beige-600 dark:text-dark-text-secondary mb-4 line-clamp-2 flex-1">
                     {product.description}
                   </p>
                   
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100">
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100 dark:border-dark-border">
                     <div className="flex items-center gap-2">
                       <img 
                         src={product.sellerId?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
                         alt="Seller" 
-                        className="w-6 h-6 rounded-full border border-beige-200 object-cover"
+                        className="w-6 h-6 rounded-full border border-beige-200 dark:border-dark-border object-cover"
                       />
-                      <span className="text-xs font-medium text-charcoal truncate max-w-[100px]">
+                      <span className="text-xs font-medium text-charcoal dark:text-dark-text-primary truncate max-w-[100px]">
                         {product.sellerId?.name || 'Unknown'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-xs text-beige-600">
-                      <MapPin className="w-3.5 h-3.5 text-teal-500" />
+                    <div className="flex items-center gap-1 text-xs text-beige-600 dark:text-dark-text-secondary">
+                      <MapPin className="w-3.5 h-3.5 text-teal-500 dark:text-dark-brand" />
                       <span className="truncate max-w-[80px]">{product.location}</span>
                     </div>
                   </div>
