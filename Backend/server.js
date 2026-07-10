@@ -16,9 +16,15 @@ connectDB();
 
 const app = express();
 const server = http.createServer(app);
+
+// Clean up FRONTEND_URL by removing trailing slashes if present
+const frontendUrl = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.replace(/\/$/, '') 
+  : '*';
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || '*',
+    origin: frontendUrl,
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -26,7 +32,7 @@ const io = new Server(server, {
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: frontendUrl,
   credentials: true,
 }));
 app.use(express.json());
