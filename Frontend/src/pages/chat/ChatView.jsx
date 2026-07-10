@@ -141,37 +141,37 @@ const ChatView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-500">Loading conversation...</div>
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
+        <div className="text-gray-500 dark:text-dark-text-secondary">Loading conversation...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-red-500">{error}</div>
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
+        <div className="text-red-500">{(typeof error === 'object' && error !== null) ? (error.message || JSON.stringify(error)) : error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-4 shadow-sm">
-        <Link to="/chat" className="text-gray-600 hover:text-gray-800">
+      <div className="bg-white dark:bg-dark-surface border-b border-gray-200 dark:border-dark-border px-4 py-3 flex items-center gap-4 shadow-sm">
+        <Link to="/chat" className="text-gray-600 dark:text-dark-text-secondary hover:text-gray-800 dark:hover:text-dark-text-primary">
           <ArrowLeft className="w-6 h-6" />
         </Link>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-semibold">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 dark:from-dark-brand dark:to-teal-600 dark:text-dark-bg flex items-center justify-center text-white font-semibold shadow-sm">
             {otherUser?.name?.charAt(0).toUpperCase() || 'U'}
           </div>
           <div>
-            <h2 className="font-semibold text-gray-800">
+            <h2 className="font-semibold text-gray-800 dark:text-dark-text-primary">
               {otherUser?.name || 'Unknown User'}
             </h2>
             {typingUser && (
-              <p className="text-xs text-blue-500">{typingUser} is typing...</p>
+              <p className="text-xs text-blue-500 dark:text-dark-brand">{typingUser} is typing...</p>
             )}
           </div>
         </div>
@@ -182,8 +182,8 @@ const ChatView = () => {
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
             <MessageCircle className="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" />
-            <p className="text-slate-600 dark:text-slate-400 text-lg font-medium mb-2">No messages yet</p>
-            <p className="text-slate-500 dark:text-slate-500 text-sm max-w-md">Start the conversation by introducing yourself and discussing the service or product you're interested in!</p>
+            <p className="text-slate-600 dark:text-dark-text-primary text-lg font-medium mb-2">No messages yet</p>
+            <p className="text-slate-500 dark:text-dark-text-secondary text-sm max-w-md">Start the conversation by introducing yourself and discussing the service or product you're interested in!</p>
           </div>
         ) : (
           messages.map((message) => {
@@ -197,14 +197,14 @@ const ChatView = () => {
                   <div
                     className={`rounded-2xl px-4 py-2 ${
                       isOwn
-                        ? 'bg-blue-500 text-white rounded-br-sm'
-                        : 'bg-white text-gray-800 rounded-bl-sm shadow-sm'
+                        ? 'bg-brand-600 dark:bg-dark-brand text-white dark:text-dark-bg rounded-br-sm'
+                        : 'bg-white dark:bg-dark-surface text-gray-800 dark:text-dark-text-primary border border-transparent dark:border-dark-border rounded-bl-sm shadow-sm'
                     }`}
                   >
                     <p className="break-words">{message.text}</p>
                   </div>
                   <p
-                    className={`text-xs text-gray-500 mt-1 ${
+                    className={`text-xs text-gray-500 dark:text-dark-text-secondary mt-1 ${
                       isOwn ? 'text-right' : 'text-left'
                     }`}
                   >
@@ -219,7 +219,7 @@ const ChatView = () => {
       </div>
 
       {/* Message Input */}
-      <div className="bg-white border-t border-gray-200 p-4">
+      <div className="bg-white dark:bg-dark-surface border-t border-gray-200 dark:border-dark-border p-4">
         <form onSubmit={handleSendMessage} className="flex gap-3">
           <input
             type="text"
@@ -229,12 +229,12 @@ const ChatView = () => {
               handleTyping();
             }}
             placeholder="Type a message..."
-            className="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-surface-elevated text-charcoal dark:text-dark-text-primary placeholder-slate-400 dark:placeholder-slate-500 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-dark-brand focus:border-transparent"
           />
           <button
             type="submit"
             disabled={!newMessage.trim()}
-            className="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="bg-brand-600 dark:bg-dark-brand text-white dark:text-dark-bg rounded-full p-2 hover:bg-brand-700 dark:hover:bg-dark-brand-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-6 h-6" />
           </button>

@@ -57,7 +57,7 @@ const ProductList = () => {
       
       {/* Mobile Filter Toggle */}
       <button 
-        className="md:hidden flex items-center justify-center gap-2 bg-beige-200 text-charcoal py-3 rounded-xl font-medium"
+        className="md:hidden flex items-center justify-center gap-2 bg-beige-200 dark:bg-dark-surface border border-transparent dark:border-dark-border text-charcoal dark:text-dark-text-primary py-3 rounded-xl font-medium"
         onClick={() => setIsFilterOpen(!isFilterOpen)}
       >
         <Filter className="w-5 h-5" /> {isFilterOpen ? 'Hide Filters' : 'Show Filters'}
@@ -65,9 +65,9 @@ const ProductList = () => {
 
       {/* Sidebar Filters */}
       <div className={`md:w-64 flex-shrink-0 ${isFilterOpen ? 'block' : 'hidden md:block'}`}>
-        <div className="bg-beige-50 rounded-2xl p-6 border border-beige-300 sticky top-24">
+        <div className="bg-beige-50 dark:bg-dark-surface rounded-2xl p-6 border border-beige-300 dark:border-dark-border sticky top-24">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-teal-900 flex items-center gap-2">
+            <h2 className="text-lg font-bold text-teal-900 dark:text-dark-text-primary flex items-center gap-2">
               <Filter className="w-5 h-5" /> Filters
             </h2>
             {(keyword || category || minPrice || maxPrice) && (
@@ -78,22 +78,22 @@ const ProductList = () => {
           <form onSubmit={handleSearchSubmit} className="space-y-6">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-charcoal mb-2">Search</label>
+              <label className="block text-sm font-medium text-charcoal dark:text-dark-text-secondary mb-2">Search</label>
               <div className="relative">
                 <input 
                   type="text"
                   placeholder="Keywords..."
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-beige-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-dark-surface-elevated border border-beige-300 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-dark-brand outline-none text-charcoal dark:text-dark-text-primary placeholder-slate-400 dark:placeholder-slate-500"
                 />
-                <Search className="w-5 h-5 text-beige-500 absolute left-3 top-3" />
+                <Search className="w-5 h-5 text-beige-500 dark:text-dark-text-secondary absolute left-3 top-3" />
               </div>
             </div>
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-charcoal mb-2">Category</label>
+              <label className="block text-sm font-medium text-charcoal dark:text-dark-text-secondary mb-2">Category</label>
               <div className="space-y-2">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input 
@@ -102,9 +102,9 @@ const ProductList = () => {
                     value="" 
                     checked={category === ''} 
                     onChange={() => setCategory('')}
-                    className="text-teal-600 focus:ring-teal-500" 
+                    className="text-teal-600 dark:text-dark-brand focus:ring-teal-500 dark:focus:ring-dark-brand bg-white dark:bg-dark-surface-elevated border border-beige-300 dark:border-dark-border" 
                   />
-                  <span className="text-sm text-charcoal">All Categories</span>
+                  <span className="text-sm text-charcoal dark:text-dark-text-secondary">All Categories</span>
                 </label>
                 {CATEGORIES.map(cat => (
                   <label key={cat} className="flex items-center gap-2 cursor-pointer">
@@ -114,9 +114,9 @@ const ProductList = () => {
                       value={cat} 
                       checked={category === cat} 
                       onChange={() => setCategory(cat)}
-                      className="text-teal-600 focus:ring-teal-500" 
+                      className="text-teal-600 dark:text-dark-brand focus:ring-teal-500 dark:focus:ring-dark-brand bg-white dark:bg-dark-surface-elevated border border-beige-300 dark:border-dark-border" 
                     />
-                    <span className="text-sm text-charcoal">{cat}</span>
+                    <span className="text-sm text-charcoal dark:text-dark-text-secondary">{cat}</span>
                   </label>
                 ))}
               </div>
@@ -124,27 +124,27 @@ const ProductList = () => {
 
             {/* Price Range */}
             <div>
-              <label className="block text-sm font-medium text-charcoal mb-2">Price Range ($)</label>
+              <label className="block text-sm font-medium text-charcoal dark:text-dark-text-secondary mb-2">Price Range ($)</label>
               <div className="flex items-center gap-2">
                 <input 
                   type="number"
                   placeholder="Min"
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border border-beige-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+                  className="w-full px-3 py-2 bg-white dark:bg-dark-surface-elevated border border-beige-300 dark:border-dark-border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-dark-brand outline-none text-charcoal dark:text-dark-text-primary placeholder-slate-400 dark:placeholder-slate-500"
                 />
-                <span className="text-beige-500">-</span>
+                <span className="text-beige-500 dark:text-dark-text-secondary">-</span>
                 <input 
                   type="number"
                   placeholder="Max"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border border-beige-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none"
+                  className="w-full px-3 py-2 bg-white dark:bg-dark-surface-elevated border border-beige-300 dark:border-dark-border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-dark-brand outline-none text-charcoal dark:text-dark-text-primary placeholder-slate-400 dark:placeholder-slate-500"
                 />
               </div>
             </div>
             
-            <button type="submit" className="w-full bg-teal-600 text-white py-2.5 rounded-xl font-medium hover:bg-teal-700 transition-colors">
+            <button type="submit" className="w-full bg-teal-600 dark:bg-dark-brand text-white dark:text-dark-bg py-2.5 rounded-xl font-medium hover:bg-teal-700 dark:hover:bg-dark-brand-hover transition-colors">
               Apply Filters
             </button>
           </form>

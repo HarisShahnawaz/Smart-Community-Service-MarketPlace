@@ -55,41 +55,41 @@ const ConversationsList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-500">Loading conversations...</div>
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
+        <div className="text-gray-500 dark:text-dark-text-secondary">Loading conversations...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
         <div className="text-red-500">{error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Messages</h1>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-dark-text-primary">Messages</h1>
           {unreadCount > 0 && (
-            <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+            <span className="bg-brand-600 dark:bg-dark-brand dark:text-dark-bg text-white px-3 py-1 rounded-full text-sm font-semibold">
               {unreadCount} unread
             </span>
           )}
         </div>
 
         {conversations.length === 0 ? (
-          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md p-12 text-center">
+          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md p-12 text-center border border-transparent dark:border-dark-border">
             <MessageCircle className="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">No conversations yet</h2>
-            <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-dark-text-primary mb-2">No conversations yet</h2>
+            <p className="text-slate-600 dark:text-dark-text-secondary mb-6 max-w-md mx-auto">
               Start a conversation by visiting a product or service profile and clicking "Message Seller" or "Message Provider" to connect with the community.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/products" className="inline-flex items-center bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors">
+              <Link to="/products" className="inline-flex items-center bg-brand-600 hover:bg-brand-700 dark:bg-dark-brand dark:hover:bg-dark-brand-hover dark:text-dark-bg text-white px-6 py-2.5 rounded-xl font-medium transition-colors">
                 Browse Products
               </Link>
               <Link to="/services" className="inline-flex items-center bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-medium transition-colors">
@@ -98,29 +98,29 @@ const ConversationsList = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md dark:border dark:border-dark-border overflow-hidden">
             {conversations.map((conversation) => {
               const otherUser = getOtherParticipant(conversation);
               return (
                 <Link
                   key={conversation._id}
                   to={`/chat/${conversation._id}`}
-                  className="block border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                  className="block border-b border-gray-100 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-surface-elevated transition-colors"
                 >
                   <div className="p-4 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-semibold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 dark:from-dark-brand dark:to-teal-600 dark:text-dark-bg flex items-center justify-center text-white font-semibold text-lg shadow-sm">
                       {otherUser?.name?.charAt(0).toUpperCase() || 'U'}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
-                        <h3 className="font-semibold text-gray-800 truncate">
+                        <h3 className="font-semibold text-gray-800 dark:text-dark-text-primary truncate">
                           {otherUser?.name || 'Unknown User'}
                         </h3>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-gray-500 dark:text-dark-text-secondary">
                           {formatTime(conversation.lastMessageAt)}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-500 truncate">
+                      <p className="text-sm text-gray-500 dark:text-dark-text-secondary truncate">
                         {conversation.lastMessage?.text || 'No messages yet'}
                       </p>
                     </div>
