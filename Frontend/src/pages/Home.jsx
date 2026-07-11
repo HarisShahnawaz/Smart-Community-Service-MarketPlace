@@ -19,18 +19,21 @@ const CATEGORY_FALLBACK = {
 
 // ─── Animation Variants ────────────────────────────────────────────────────────
 const fadeUpVariant = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 24 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: 'easeOut', delay: i * 0.1 },
+    transition: { duration: 0.4, ease: 'easeOut', delay: i * 0.08 },
   }),
 };
 
 const staggerContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.08 } },
 };
+
+// Shared viewport config — low amount so only 10% needs to be visible
+const VP = { once: true, amount: 0.1 };
 
 // ─── Section Heading Component ─────────────────────────────────────────────────
 const SectionHeading = ({ children, accent, sub, center = true }) => (
@@ -265,7 +268,7 @@ const Home = () => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={VP}
             variants={fadeUpVariant}
             className="flex justify-between items-end mb-10"
           >
@@ -280,15 +283,10 @@ const Home = () => {
             </Link>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {loadingFeatured ? (
-              [...Array(4)].map((_, i) => (
+          {/* Skeleton shown outside animation wrapper so the observer fires on real content */}
+          {loadingFeatured ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[...Array(4)].map((_, i) => (
                 <div key={i} className="bg-white dark:bg-dark-surface dark:border dark:border-dark-border rounded-2xl shadow-sm overflow-hidden animate-pulse">
                   <div className="aspect-square bg-slate-200 dark:bg-dark-surface-elevated" />
                   <div className="p-4 space-y-2">
@@ -297,8 +295,10 @@ const Home = () => {
                     <div className="h-4 bg-slate-200 dark:bg-dark-surface-elevated rounded w-1/3 mt-2" />
                   </div>
                 </div>
-              ))
-            ) : featuredProducts.length === 0 ? (
+              ))}
+            </div>
+          ) : featuredProducts.length === 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="col-span-4 text-center py-16 text-slate-500 dark:text-dark-text-secondary">
                 <ShoppingCart className="w-14 h-14 mx-auto mb-4 opacity-30" />
                 <p className="text-lg mb-2">No listings yet.</p>
@@ -306,8 +306,18 @@ const Home = () => {
                   Be the first to sell!
                 </Link>
               </div>
-            ) : (
-              featuredProducts.map((item, i) => (
+            </div>
+          ) : (
+            /* Only mount the animated wrapper once real data is ready —
+               this ensures the IntersectionObserver attaches to stable, sized content */
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VP}
+            >
+              {featuredProducts.map((item, i) => (
                 <motion.div
                   key={item._id}
                   variants={fadeUpVariant}
@@ -384,9 +394,9 @@ const Home = () => {
                     </div>
                   </Link>
                 </motion.div>
-              ))
-            )}
-          </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -396,7 +406,7 @@ const Home = () => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={VP}
             variants={fadeUpVariant}
           >
             <SectionHeading accent="Works">
@@ -409,7 +419,7 @@ const Home = () => {
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={VP}
           >
             {[
               { step: '01', title: 'Browse & Discover', desc: 'Explore hundreds of local products and services from trusted community members. Filter by category, location, price, and ratings to find exactly what you need.', icon: ShoppingCart },
@@ -434,7 +444,7 @@ const Home = () => {
       {/* ───────────────────── TESTIMONIALS ───────────────────── */}
       <section className="py-16 md:py-24 bg-slate-50 dark:bg-dark-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
+          <motion.div initial="hidden" whileInView="visible" viewport={VP} variants={fadeUpVariant}>
             <SectionHeading accent="Says">
               What Our Community{' '}
             </SectionHeading>
@@ -445,7 +455,7 @@ const Home = () => {
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={VP}
           >
             {[
               { name: 'Sarah Ahmed', role: 'Small Business Owner, Lahore', rating: 5, text: "I needed a professional website for my bakery but couldn't afford agency prices. Found an amazing web developer here who understood my vision perfectly. My online orders have tripled since launch!" },
@@ -478,7 +488,7 @@ const Home = () => {
       {/* ───────────────────── ABOUT SECTION ───────────────────── */}
       <section className="py-16 md:py-24 bg-white dark:bg-dark-surface border-y border-transparent dark:border-dark-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
+          <motion.div initial="hidden" whileInView="visible" viewport={VP} variants={fadeUpVariant}>
             <SectionHeading accent="Marketplace">
               About Smart Community{' '}
             </SectionHeading>
@@ -489,7 +499,7 @@ const Home = () => {
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={VP}
           >
             {[
               {
@@ -537,7 +547,7 @@ const Home = () => {
       {/* ───────────────────── FAQ ACCORDION ───────────────────── */}
       <section className="py-16 md:py-24 bg-slate-50 dark:bg-dark-bg">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
+          <motion.div initial="hidden" whileInView="visible" viewport={VP} variants={fadeUpVariant}>
             <SectionHeading accent="Questions">
               Frequently Asked{' '}
             </SectionHeading>
@@ -548,7 +558,7 @@ const Home = () => {
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={VP}
           >
             {faqs.map((faq, i) => (
               <motion.div key={i} variants={fadeUpVariant} custom={i}>
@@ -569,7 +579,7 @@ const Home = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={VP}
           transition={{ duration: 0.5 }}
           className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
         >
