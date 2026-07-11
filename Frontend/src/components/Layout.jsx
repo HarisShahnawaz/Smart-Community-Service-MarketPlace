@@ -67,7 +67,7 @@ const Layout = () => {
                 Services
               </Link>
             </div>
-            
+
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-4">
               <button
@@ -116,7 +116,8 @@ const Layout = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-white text-brand-700 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-2 rounded-lg font-medium transition-colors shadow-sm"
+                    className="bg-white text-brand-700 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-3 rounded-xl font-semibold transition-colors shadow-md text-center block w-full text-base"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     Sign Up
                   </Link>
@@ -208,9 +209,8 @@ const Layout = () => {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: '100%', opacity: 0 }}
                 transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-                className={`fixed top-0 right-0 h-full w-4/5 max-w-sm z-40 p-6 pt-20 shadow-2xl md:hidden overflow-y-auto ${
-                  isDark ? 'bg-dark-surface text-dark-text-primary border-l border-dark-border' : 'bg-brand-700 text-white'
-                }`}
+                className={`fixed top-0 right-0 h-full w-4/5 max-w-sm z-40 p-6 pt-20 shadow-2xl md:hidden overflow-y-auto ${isDark ? 'bg-dark-surface text-dark-text-primary border-l border-dark-border' : 'bg-brand-700 text-white'
+                  }`}
               >
                 <motion.div
                   variants={{
@@ -304,63 +304,63 @@ const Layout = () => {
 
       {!isChatRoute && (
         <footer className={`border-t mt-auto ${isDark ? 'bg-dark-surface border-dark-border text-dark-text-secondary' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-            {/* Company Column */}
-            <div>
-              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">About Us</Link></li>
-                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Careers</Link></li>
-                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Press</Link></li>
-                <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Blog</Link></li>
-              </ul>
-            </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+              {/* Company Column */}
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Company</h3>
+                <ul className="space-y-2">
+                  <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">About Us</Link></li>
+                  <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Careers</Link></li>
+                  <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Press</Link></li>
+                  <li><Link to="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Blog</Link></li>
+                </ul>
+              </div>
 
-            {/* Quick Links Column */}
-            <div>
-              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Marketplace</Link></li>
-                <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Services</Link></li>
-                <li><Link to="/favorites" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Favorites</Link></li>
-                <li><Link to="/bookings" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">My Bookings</Link></li>
-              </ul>
-            </div>
+              {/* Quick Links Column */}
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Quick Links</h3>
+                <ul className="space-y-2">
+                  <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Marketplace</Link></li>
+                  <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Services</Link></li>
+                  <li><Link to="/favorites" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Favorites</Link></li>
+                  <li><Link to="/bookings" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">My Bookings</Link></li>
+                </ul>
+              </div>
 
-            {/* Categories Column */}
-            <div>
-              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Categories</h3>
-              <ul className="space-y-2">
-                <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Electronics</Link></li>
-                <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Furniture</Link></li>
-                <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Web Development</Link></li>
-                <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Graphic Design</Link></li>
-              </ul>
-            </div>
+              {/* Categories Column */}
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Categories</h3>
+                <ul className="space-y-2">
+                  <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Electronics</Link></li>
+                  <li><Link to="/products" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Furniture</Link></li>
+                  <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Web Development</Link></li>
+                  <li><Link to="/services" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">Graphic Design</Link></li>
+                </ul>
+              </div>
 
-            {/* Contact Column */}
-            <div>
-              <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Contact</h3>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  <Link to="mailto:support@smartcommunity.com" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">support@smartcommunity.com</Link>
-                </li>
-              </ul>
-              <div className="flex gap-4 mt-4">
-                <a href="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors" aria-label="Email">
-                  <Mail className="w-5 h-5" />
-                </a>
+              {/* Contact Column */}
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-dark-text-primary mb-4">Contact</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2">
+                    <Mail className="w-4 h-4" />
+                    <Link to="mailto:support@smartcommunity.com" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors">support@smartcommunity.com</Link>
+                  </li>
+                </ul>
+                <div className="flex gap-4 mt-4">
+                  <a href="#" className="hover:text-brand-600 dark:hover:text-dark-brand transition-colors" aria-label="Email">
+                    <Mail className="w-5 h-5" />
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="border-t border-slate-200 dark:border-dark-border pt-8 text-center text-sm">
-            <p>&copy; {new Date().getFullYear()} Smart Community Marketplace. All rights reserved.</p>
+            <div className="border-t border-slate-200 dark:border-dark-border pt-8 text-center text-sm">
+              <p>&copy; {new Date().getFullYear()} Smart Community Marketplace. All rights reserved.</p>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
       )}
     </div>
   );
