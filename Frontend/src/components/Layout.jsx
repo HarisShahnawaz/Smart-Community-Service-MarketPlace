@@ -116,8 +116,7 @@ const Layout = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-white text-brand-700 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-3 rounded-xl font-semibold transition-colors shadow-md text-center block w-full text-base"
-                    onClick={() => setMobileMenuOpen(false)}
+                    className="bg-white text-brand-700 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-2 rounded-lg font-medium transition-colors shadow-sm"
                   >
                     Sign Up
                   </Link>
@@ -283,7 +282,7 @@ const Layout = () => {
                       <motion.div variants={{ hidden: { opacity: 0, x: 15 }, show: { opacity: 1, x: 0 } }} whileTap={{ scale: 0.95 }} className="pt-2">
                         <Link
                           to="/register"
-                          className="bg-white text-brand-750 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-3 rounded-xl font-semibold transition-colors shadow-md text-center block w-full text-base"
+                          className="bg-white text-brand-700 hover:bg-brand-50 dark:bg-dark-brand dark:text-dark-bg dark:hover:bg-dark-brand-hover px-4 py-3 rounded-xl font-semibold transition-colors shadow-md text-center block w-full text-base"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           Sign Up
