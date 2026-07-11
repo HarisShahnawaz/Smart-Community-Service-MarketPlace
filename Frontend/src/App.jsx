@@ -30,8 +30,7 @@ import AdminApprovals from './pages/admin/AdminApprovals';
 import MyBookings from './pages/bookings/MyBookings';
 import BookingDetail from './pages/bookings/BookingDetail';
 
-import ConversationsList from './pages/chat/ConversationsList';
-import ChatView from './pages/chat/ChatView';
+import ChatPage from './pages/chat/ChatPage';
 
 function App() {
   return (
@@ -74,8 +73,8 @@ function App() {
             <Route path="bookings" element={<MyBookings />} />
             <Route path="bookings/:id" element={<BookingDetail />} />
 
-            <Route path="chat" element={<ConversationsList />} />
-            <Route path="chat/:conversationId" element={<ChatView />} />
+            <Route path="chat" element={<ChatPage />} />
+            <Route path="chat/:conversationId" element={<ChatPage />} />
 
             {/* Admin Routes */}
             <Route path="admin" element={<AdminDashboard />} />

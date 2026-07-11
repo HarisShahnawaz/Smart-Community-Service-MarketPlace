@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -11,8 +11,10 @@ const Layout = () => {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
+  const isChatRoute = location.pathname.startsWith('/chat');
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -50,7 +52,7 @@ const Layout = () => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans ${isDark ? 'bg-dark-bg text-dark-text-primary' : 'bg-slate-50 text-light-text-primary'}`}>
+    <div className={`${isChatRoute ? 'h-screen overflow-hidden' : 'min-h-screen'} flex flex-col font-sans ${isDark ? 'bg-dark-bg text-dark-text-primary' : 'bg-slate-50 text-light-text-primary'}`}>
       <nav className={`shadow-md sticky top-0 z-50 ${isDark ? 'bg-dark-surface text-dark-text-primary border-b border-dark-border' : 'bg-brand-600 text-white'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -296,11 +298,12 @@ const Layout = () => {
         </AnimatePresence>
       </nav>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+      <main className={isChatRoute ? "flex-1 w-full flex flex-col overflow-hidden" : "flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8"}>
         <Outlet />
       </main>
 
-      <footer className={`border-t mt-auto ${isDark ? 'bg-dark-surface border-dark-border text-dark-text-secondary' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
+      {!isChatRoute && (
+        <footer className={`border-t mt-auto ${isDark ? 'bg-dark-surface border-dark-border text-dark-text-secondary' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             {/* Company Column */}
@@ -358,6 +361,7 @@ const Layout = () => {
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 };

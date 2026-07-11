@@ -55,7 +55,7 @@ const ConversationsList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
+      <div className="h-full flex items-center justify-center bg-gray-50 dark:bg-dark-bg">
         <div className="text-gray-500 dark:text-dark-text-secondary">Loading conversations...</div>
       </div>
     );
@@ -63,16 +63,16 @@ const ConversationsList = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
+      <div className="h-full flex items-center justify-center bg-gray-50 dark:bg-dark-bg">
         <div className="text-red-500">{error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+    <div className="h-full flex flex-col overflow-hidden bg-gray-50 dark:bg-dark-bg py-6 px-4">
+      <div className="max-w-4xl w-full mx-auto flex flex-col h-full overflow-hidden">
+        <div className="flex items-center justify-between mb-6 flex-shrink-0">
           <h1 className="text-3xl font-bold text-gray-800 dark:text-dark-text-primary">Messages</h1>
           {unreadCount > 0 && (
             <span className="bg-brand-600 dark:bg-dark-brand dark:text-dark-bg text-white px-3 py-1 rounded-full text-sm font-semibold">
@@ -82,7 +82,7 @@ const ConversationsList = () => {
         </div>
 
         {conversations.length === 0 ? (
-          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md p-12 text-center border border-transparent dark:border-dark-border">
+          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md p-12 text-center border border-transparent dark:border-dark-border flex-1 flex flex-col justify-center items-center">
             <MessageCircle className="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
             <h2 className="text-xl font-semibold text-slate-900 dark:text-dark-text-primary mb-2">No conversations yet</h2>
             <p className="text-slate-600 dark:text-dark-text-secondary mb-6 max-w-md mx-auto">
@@ -98,7 +98,7 @@ const ConversationsList = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md dark:border dark:border-dark-border overflow-hidden">
+          <div className="bg-white dark:bg-dark-surface rounded-lg shadow-md dark:border dark:border-dark-border flex-1 overflow-y-auto min-h-0">
             {conversations.map((conversation) => {
               const otherUser = getOtherParticipant(conversation);
               return (

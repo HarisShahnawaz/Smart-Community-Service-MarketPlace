@@ -141,7 +141,7 @@ const ChatView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
+      <div className="h-full bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
         <div className="text-gray-500 dark:text-dark-text-secondary">Loading conversation...</div>
       </div>
     );
@@ -149,16 +149,16 @@ const ChatView = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
+      <div className="h-full bg-gray-50 dark:bg-dark-bg flex items-center justify-center">
         <div className="text-red-500">{(typeof error === 'object' && error !== null) ? (error.message || JSON.stringify(error)) : error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex flex-col">
+    <div className="h-full bg-gray-50 dark:bg-dark-bg flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="bg-white dark:bg-dark-surface border-b border-gray-200 dark:border-dark-border px-4 py-3 flex items-center gap-4 shadow-sm">
+      <div className="bg-white dark:bg-dark-surface border-b border-gray-200 dark:border-dark-border px-4 py-3 flex items-center gap-4 shadow-sm flex-shrink-0">
         <Link to="/chat" className="text-gray-600 dark:text-dark-text-secondary hover:text-gray-800 dark:hover:text-dark-text-primary">
           <ArrowLeft className="w-6 h-6" />
         </Link>
@@ -178,7 +178,7 @@ const ChatView = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto min-h-0 p-4 space-y-4">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
             <MessageCircle className="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" />
@@ -219,7 +219,7 @@ const ChatView = () => {
       </div>
 
       {/* Message Input */}
-      <div className="bg-white dark:bg-dark-surface border-t border-gray-200 dark:border-dark-border p-4">
+      <div className="bg-white dark:bg-dark-surface border-t border-gray-200 dark:border-dark-border p-4 flex-shrink-0">
         <form onSubmit={handleSendMessage} className="flex gap-3">
           <input
             type="text"
