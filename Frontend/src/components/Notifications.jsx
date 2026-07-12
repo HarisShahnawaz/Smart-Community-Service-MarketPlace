@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { Bell, X, Check, CheckCheck } from 'lucide-react';
 import { getMyNotifications, getUnreadCount, markAsRead, markAllAsRead, deleteNotification } from '../api/notificationApi';
 import { useAuth } from '../context/AuthContext';
+import { useSocket } from '../context/SocketContext';
 
 const Notifications = () => {
   const { user } = useAuth();
+  const socket = useSocket();
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -22,6 +24,23 @@ const Notifications = () => {
       return () => clearInterval(interval);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!socket?.current) return;
+
+    const handleNewNotification = (notification) => {
+      setNotifications(prev => [notification, ...prev]);
+      setUnreadCount(prev => prev + 1);
+    };
+
+    socket.current.on('receive_notification', handleNewNotification);
+
+    return () => {
+      if (socket.current) {
+        socket.current.off('receive_notification', handleNewNotification);
+      }
+    };
+  }, [socket]);
 
   const fetchNotifications = async () => {
     try {
@@ -87,6 +106,8 @@ const Notifications = () => {
         return '❤️';
       case 'system':
         return '🔔';
+      case 'order':
+        return '📦';
       default:
         return '📢';
     }

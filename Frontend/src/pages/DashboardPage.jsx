@@ -14,6 +14,7 @@ import {
   XCircle,
   AlertCircle,
   ArrowRight,
+  ShoppingBag,
 } from 'lucide-react';
 
 // ─── Animation helpers ─────────────────────────────────────────────────────────
@@ -216,6 +217,22 @@ const DashboardPage = () => {
             color="bg-rose-500"
             link="/favorites"
             emptyHint="Heart listings you love to save them here."
+          />
+          <StatCard
+            title="My Purchases"
+            value={stats?.counts?.purchases || 0}
+            icon={ShoppingBag}
+            color="bg-teal-600"
+            link="/orders"
+            emptyHint="Products you purchase will show up here."
+          />
+          <StatCard
+            title="My Sales"
+            value={stats?.counts?.sales || 0}
+            icon={Package}
+            color="bg-emerald-600"
+            link="/orders"
+            emptyHint="Products other users buy from you."
           />
         </motion.div>
       </div>

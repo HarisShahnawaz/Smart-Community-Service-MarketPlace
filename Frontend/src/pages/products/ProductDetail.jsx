@@ -3,7 +3,9 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import { getOrCreateConversation } from '../../api/messageApi';
-import { MapPin, Tag, ArrowLeft, Star, Clock, User, CheckCircle, Edit, Trash2, MessageCircle } from 'lucide-react';
+import { MapPin, Tag, ArrowLeft, Star, Clock, User, CheckCircle, Edit, Trash2, MessageCircle, ShoppingBag } from 'lucide-react';
+import { motion } from 'framer-motion';
+import CheckoutModal from '../../components/CheckoutModal';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -15,6 +17,7 @@ const ProductDetail = () => {
   const [error, setError] = useState('');
   const [activeImage, setActiveImage] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -163,8 +166,26 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <div className="text-3xl sm:text-4xl font-bold text-brand-600 mb-6">
-            ${product.price.toFixed(2)}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+            <div className="text-3xl sm:text-4xl font-bold text-brand-600">
+              ${product.price.toFixed(2)}
+            </div>
+            {product.status === 'sold' ? (
+              <span className="bg-danger/20 text-danger border border-danger/30 px-6 py-2.5 rounded-xl font-bold text-sm uppercase tracking-wider">
+                Sold Out
+              </span>
+            ) : (
+              !isOwner && (
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsCheckoutOpen(true)}
+                  className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer text-base"
+                >
+                  <ShoppingBag className="w-5 h-5" />
+                  Buy Now
+                </motion.button>
+              )
+            )}
           </div>
 
           <div className="prose prose-slate dark:prose-invert max-w-none mb-8">
@@ -215,6 +236,13 @@ const ProductDetail = () => {
 
         </div>
       </div>
+
+      <CheckoutModal 
+        isOpen={isCheckoutOpen} 
+        onClose={() => setIsCheckoutOpen(false)} 
+        product={product}
+        onOrderSuccess={(order) => setProduct(prev => ({ ...prev, status: 'sold' }))}
+      />
     </div>
   );
 };

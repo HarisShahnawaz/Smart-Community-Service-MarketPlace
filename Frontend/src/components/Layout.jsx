@@ -101,6 +101,9 @@ const Layout = () => {
                   <Link to="/bookings" className="hidden sm:flex items-center hover:text-brand-200 dark:hover:text-dark-brand transition-colors text-sm font-medium">
                     Bookings
                   </Link>
+                  <Link to="/orders" className="hidden sm:flex items-center hover:text-brand-200 dark:hover:text-dark-brand transition-colors text-sm font-medium">
+                    Orders
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="flex items-center bg-brand-700 hover:bg-brand-800 dark:bg-dark-brand dark:hover:bg-dark-brand-hover dark:text-dark-bg px-3 py-1.5 rounded-lg transition-colors text-sm font-medium"
@@ -260,6 +263,11 @@ const Layout = () => {
                       <motion.div variants={{ hidden: { opacity: 0, x: 15 }, show: { opacity: 1, x: 0 } }} whileTap={{ scale: 0.95 }}>
                         <Link to="/bookings" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium text-lg flex items-center gap-2 py-2" onClick={() => setMobileMenuOpen(false)}>
                           Bookings
+                        </Link>
+                      </motion.div>
+                      <motion.div variants={{ hidden: { opacity: 0, x: 15 }, show: { opacity: 1, x: 0 } }} whileTap={{ scale: 0.95 }}>
+                        <Link to="/orders" className="text-brand-50 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-brand font-medium text-lg flex items-center gap-2 py-2" onClick={() => setMobileMenuOpen(false)}>
+                          Orders
                         </Link>
                       </motion.div>
                       <motion.div variants={{ hidden: { opacity: 0, x: 15 }, show: { opacity: 1, x: 0 } }} whileTap={{ scale: 0.95 }} className="pt-4">

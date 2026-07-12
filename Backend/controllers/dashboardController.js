@@ -4,6 +4,7 @@ const Booking = require('../models/Booking');
 const Review = require('../models/Review');
 const Favorite = require('../models/Favorite');
 const User = require('../models/User');
+const Order = require('../models/Order');
 
 // @desc    Get user dashboard stats
 // @route   GET /api/dashboard/stats
@@ -19,14 +20,18 @@ const getUserStats = async (req, res, next) => {
       bookingCount,
       reviewReceivedCount,
       reviewGivenCount,
-      favoriteCount
+      favoriteCount,
+      purchaseCount,
+      saleCount
     ] = await Promise.all([
       Product.countDocuments({ sellerId: userId }),
       Service.countDocuments({ providerId: userId }),
       Booking.countDocuments({ userId }),
       Review.countDocuments({ targetId: userId, targetType: 'User' }),
       Review.countDocuments({ reviewerId: userId }),
-      Favorite.countDocuments({ userId })
+      Favorite.countDocuments({ userId }),
+      Order.countDocuments({ buyerId: userId }),
+      Order.countDocuments({ sellerId: userId })
     ]);
 
     // Get booking status breakdown
@@ -89,7 +94,9 @@ const getUserStats = async (req, res, next) => {
           bookings: bookingCount,
           reviewsReceived: reviewReceivedCount,
           reviewsGiven: reviewGivenCount,
-          favorites: favoriteCount
+          favorites: favoriteCount,
+          purchases: purchaseCount,
+          sales: saleCount
         },
         rating: {
           average: avgRating,

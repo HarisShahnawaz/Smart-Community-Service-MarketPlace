@@ -1,13 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
-import { MapPin, Tag, Search, Filter, X } from 'lucide-react';
+import { MapPin, Tag, Search, Filter, X, ShoppingBag } from 'lucide-react';
 import FavoriteButton from '../../components/FavoriteButton';
+import { motion } from 'framer-motion';
+import { useAuth } from '../../context/AuthContext';
+import CheckoutModal from '../../components/CheckoutModal';
 
 const ProductList = () => {
+  const { user: currentUser } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  // Checkout modal states
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  const handleBuyNow = (product) => {
+    setSelectedProduct(product);
+    setIsCheckoutOpen(true);
+  };
   
   // Search & Filter State
   const [keyword, setKeyword] = useState('');
@@ -209,47 +222,67 @@ const ProductList = () => {
                   <FavoriteButton itemId={product._id} itemType="Product" />
                 </div>
                 
-                <Link to={`/products/${product._id}`} className="p-5 flex-1 flex flex-col">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-medium bg-teal-50 dark:bg-dark-brand/10 text-teal-700 dark:text-dark-brand px-2.5 py-0.5 rounded-full border border-teal-100 dark:border-dark-brand/20 uppercase tracking-wider">
-                      {product.condition}
-                    </span>
-                    <span className="text-xs text-beige-600 dark:text-dark-text-secondary flex items-center gap-1">
-                      <Tag className="w-3 h-3" />
-                      {product.category}
-                    </span>
-                  </div>
-                  
-                  <h3 className="text-lg font-bold text-charcoal dark:text-dark-text-primary mb-2 line-clamp-1 group-hover:text-teal-700 dark:group-hover:text-dark-brand transition-colors">
-                    {product.title}
-                  </h3>
-                  
-                  <p className="text-sm text-beige-600 dark:text-dark-text-secondary mb-4 line-clamp-2 flex-1">
-                    {product.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100 dark:border-dark-border">
-                    <div className="flex items-center gap-2">
-                      <img 
-                        src={product.sellerId?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
-                        alt="Seller" 
-                        className="w-6 h-6 rounded-full border border-beige-200 dark:border-dark-border object-cover"
-                      />
-                      <span className="text-xs font-medium text-charcoal dark:text-dark-text-primary truncate max-w-[100px]">
-                        {product.sellerId?.name || 'Unknown'}
+                <div className="p-5 flex-1 flex flex-col">
+                  <Link to={`/products/${product._id}`} className="flex-1 flex flex-col">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xs font-medium bg-teal-50 dark:bg-dark-brand/10 text-teal-700 dark:text-dark-brand px-2.5 py-0.5 rounded-full border border-teal-100 dark:border-dark-brand/20 uppercase tracking-wider">
+                        {product.condition}
+                      </span>
+                      <span className="text-xs text-beige-600 dark:text-dark-text-secondary flex items-center gap-1">
+                        <Tag className="w-3 h-3" />
+                        {product.category}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-xs text-beige-600 dark:text-dark-text-secondary">
-                      <MapPin className="w-3.5 h-3.5 text-teal-500 dark:text-dark-brand" />
-                      <span className="truncate max-w-[80px]">{product.location}</span>
+                    
+                    <h3 className="text-lg font-bold text-charcoal dark:text-dark-text-primary mb-2 line-clamp-1 group-hover:text-teal-700 dark:group-hover:text-dark-brand transition-colors">
+                      {product.title}
+                    </h3>
+                    
+                    <p className="text-sm text-beige-600 dark:text-dark-text-secondary mb-4 line-clamp-2 flex-1">
+                      {product.description}
+                    </p>
+                    
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100 dark:border-dark-border">
+                      <div className="flex items-center gap-2">
+                        <img 
+                          src={product.sellerId?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
+                          alt="Seller" 
+                          className="w-6 h-6 rounded-full border border-beige-200 dark:border-dark-border object-cover"
+                        />
+                        <span className="text-xs font-medium text-charcoal dark:text-dark-text-primary truncate max-w-[100px]">
+                          {product.sellerId?.name || 'Unknown'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-beige-600 dark:text-dark-text-secondary">
+                        <MapPin className="w-3.5 h-3.5 text-teal-500 dark:text-dark-brand" />
+                        <span className="truncate max-w-[80px]">{product.location}</span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+
+                  {(!currentUser || currentUser._id !== product.sellerId?._id) && (
+                    <motion.button
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handleBuyNow(product)}
+                      className="w-full mt-4 bg-teal-600 hover:bg-teal-700 dark:bg-dark-brand dark:hover:bg-dark-brand-hover dark:text-dark-bg text-white py-2 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      Buy Now
+                    </motion.button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      <CheckoutModal 
+        isOpen={isCheckoutOpen} 
+        onClose={() => setIsCheckoutOpen(false)} 
+        product={selectedProduct}
+        onOrderSuccess={() => fetchProducts()}
+      />
     </div>
   );
 };

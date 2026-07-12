@@ -29,6 +29,7 @@ import AdminApprovals from './pages/admin/AdminApprovals';
 
 import MyBookings from './pages/bookings/MyBookings';
 import BookingDetail from './pages/bookings/BookingDetail';
+import OrdersPage from './pages/orders/OrdersPage';
 
 import ChatPage from './pages/chat/ChatPage';
 
@@ -72,6 +73,7 @@ function App() {
 
             <Route path="bookings" element={<MyBookings />} />
             <Route path="bookings/:id" element={<BookingDetail />} />
+            <Route path="orders" element={<OrdersPage />} />
 
             <Route path="chat" element={<ChatPage />} />
             <Route path="chat/:conversationId" element={<ChatPage />} />

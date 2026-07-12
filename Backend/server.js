@@ -49,10 +49,13 @@ app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
 
 // Socket.io - Real-time chat
 // Map userId -> socketId for targeted message delivery
 const onlineUsers = new Map();
+app.set('io', io);
+app.set('onlineUsers', onlineUsers);
 
 io.on('connection', (socket) => {
   console.log(`Socket connected: ${socket.id}`);
