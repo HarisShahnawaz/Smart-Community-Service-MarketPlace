@@ -235,10 +235,10 @@ const ServiceDetail = () => {
                 </div>
               </div>
               
-              {service.providerId.location && (
+              {service.providerId.location && (service.providerId.location.city || service.providerId.location.country) && (
                 <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 mb-4">
                   <MapPin className="w-4 h-4 text-brand-600" />
-                  {service.providerId.location}
+                  {[service.providerId.location.city, service.providerId.location.country].filter(Boolean).join(', ')}
                 </div>
               )}
 

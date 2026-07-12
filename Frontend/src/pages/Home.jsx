@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight, ShoppingCart, Briefcase, Star, Users, MapPin, Heart,
-  Target, HelpCircle, Shield, ChevronDown, Zap, CheckCircle,
+  Target, HelpCircle, Shield, ChevronDown, Zap, CheckCircle, Clock,
 } from 'lucide-react';
 import api from '../api/axios';
 
@@ -95,6 +95,8 @@ const FaqItem = ({ q, a, isOpen, onToggle }) => (
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
+  const [featuredServices, setFeaturedServices] = useState([]);
+  const [loadingServices, setLoadingServices] = useState(true);
   const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
@@ -108,7 +110,18 @@ const Home = () => {
         setLoadingFeatured(false);
       }
     };
+    const fetchFeaturedServices = async () => {
+      try {
+        const { data } = await api.get('/services?limit=4&sort=-createdAt');
+        setFeaturedServices(data.data?.slice(0, 4) || []);
+      } catch {
+        setFeaturedServices([]);
+      } finally {
+        setLoadingServices(false);
+      }
+    };
     fetchFeatured();
+    fetchFeaturedServices();
   }, []);
 
   const faqs = [
@@ -390,6 +403,133 @@ const Home = () => {
                             </p>
                           )}
                         </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+      </section>
+
+      {/* ───────────────────── FEATURED SERVICES ───────────────────── */}
+      <section className="py-16 md:py-24 bg-white dark:bg-dark-surface border-y border-transparent dark:border-dark-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={VP}
+            variants={fadeUpVariant}
+            className="flex justify-between items-end mb-10"
+          >
+            <SectionHeading center={false} accent="Services">
+              Featured
+            </SectionHeading>
+            <Link
+              to="/services"
+              className="text-brand-600 dark:text-dark-brand hover:text-brand-700 dark:hover:text-dark-brand-hover font-medium flex items-center gap-1 shrink-0 mb-3"
+            >
+              View All <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+
+          {loadingServices ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-slate-50 dark:bg-dark-bg dark:border dark:border-dark-border rounded-2xl shadow-sm overflow-hidden animate-pulse">
+                  <div className="aspect-video bg-slate-200 dark:bg-dark-surface-elevated" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 bg-slate-200 dark:bg-dark-surface-elevated rounded w-3/4" />
+                    <div className="h-3 bg-slate-100 dark:bg-dark-bg rounded w-1/2" />
+                    <div className="h-4 bg-slate-200 dark:bg-dark-surface-elevated rounded w-1/3 mt-2" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : featuredServices.length === 0 ? (
+            <div className="text-center py-16 text-slate-500 dark:text-dark-text-secondary">
+              <Briefcase className="w-14 h-14 mx-auto mb-4 opacity-30" />
+              <p className="text-lg mb-2">No services listed yet.</p>
+              <Link to="/services/new" className="text-brand-600 dark:text-dark-brand underline font-medium">
+                Be the first to offer a service!
+              </Link>
+            </div>
+          ) : (
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VP}
+            >
+              {featuredServices.map((svc, i) => (
+                <motion.div
+                  key={svc._id}
+                  variants={fadeUpVariant}
+                  custom={i}
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                  className="group"
+                >
+                  <Link to={`/services/${svc._id}`} className="block">
+                    <div className="bg-white dark:bg-dark-surface dark:border dark:border-dark-border rounded-2xl shadow-sm group-hover:shadow-xl transition-all duration-300 overflow-hidden">
+                      {/* Image area */}
+                      <div className="aspect-video bg-gradient-to-br from-teal-50 to-teal-100 dark:from-dark-surface dark:to-dark-surface-elevated overflow-hidden relative">
+                        {svc.portfolioImages && svc.portfolioImages.length > 0 ? (
+                          <img
+                            src={svc.portfolioImages[0]}
+                            alt={svc.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Briefcase className="w-12 h-12 text-teal-400 dark:text-dark-brand opacity-50" />
+                          </div>
+                        )}
+                        {/* Category badge — top-left */}
+                        <div className="absolute top-3 left-3">
+                          <span className="bg-black/50 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full capitalize">
+                            {svc.category}
+                          </span>
+                        </div>
+                        {/* Price badge — top-right */}
+                        <div className="absolute top-3 right-3">
+                          <span className="bg-teal-600/90 dark:bg-dark-brand/90 backdrop-blur-sm text-white dark:text-dark-bg text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+                            From ${svc.price}
+                          </span>
+                        </div>
+                        {/* Availability dot */}
+                        {!svc.availability && (
+                          <div className="absolute bottom-3 left-3">
+                            <span className="bg-danger/90 text-white text-xs font-bold px-2 py-0.5 rounded-full">Unavailable</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Card body */}
+                      <div className="p-4">
+                        <h3 className="text-base font-semibold text-slate-900 dark:text-dark-text-primary mb-2 truncate group-hover:text-brand-600 dark:group-hover:text-dark-brand transition-colors">
+                          {svc.title}
+                        </h3>
+                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-dark-text-secondary">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3.5 h-3.5 text-teal-500 dark:text-dark-brand" />
+                            <span>Up to {svc.deliveryTimeInDays}d</span>
+                          </div>
+                          {svc.providerId?.ratingAvg > 0 ? (
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3.5 h-3.5 fill-accent-500 text-accent-500 dark:fill-dark-accent dark:text-dark-accent" />
+                              <span className="font-medium dark:text-dark-text-primary">{svc.providerId.ratingAvg.toFixed(1)}</span>
+                            </div>
+                          ) : (
+                            <span className="text-slate-400 dark:text-dark-text-secondary">New</span>
+                          )}
+                        </div>
+                        {svc.providerId?.name && (
+                          <p className="text-xs text-slate-400 dark:text-dark-text-secondary mt-2 truncate">
+                            by {svc.providerId.name}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </Link>
