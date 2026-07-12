@@ -131,7 +131,7 @@ const CheckoutModal = ({ isOpen, onClose, product, onOrderSuccess }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
         {/* Backdrop Overlay */}
         <motion.div 
           initial={{ opacity: 0 }}
@@ -147,13 +147,13 @@ const CheckoutModal = ({ isOpen, onClose, product, onOrderSuccess }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', duration: 0.4 }}
-          className="relative bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl z-10 flex flex-col max-h-[90vh]"
+          className="relative bg-white dark:bg-dark-surface border-t sm:border border-slate-200 dark:border-dark-border w-full max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl z-10 flex flex-col max-h-[92vh] sm:max-h-[85vh]"
         >
           {/* Header */}
-          <div className="p-6 border-b border-slate-100 dark:border-dark-border flex justify-between items-center bg-slate-50/55 dark:bg-dark-surface/50">
-            <div className="flex items-center gap-2.5">
+          <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-dark-border flex justify-between items-center bg-slate-50/55 dark:bg-dark-surface/50 flex-shrink-0">
+            <div className="flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-teal-600 dark:text-dark-brand" />
-              <h2 className="text-xl font-bold text-slate-800 dark:text-white">Checkout</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white">Checkout</h2>
             </div>
             {step < 4 && (
               <button 
@@ -167,19 +167,19 @@ const CheckoutModal = ({ isOpen, onClose, product, onOrderSuccess }) => {
 
           {/* Progress Indicators */}
           {step < 4 && (
-            <div className="flex px-8 py-4 bg-slate-50/30 dark:bg-dark-surface/20 border-b border-slate-100 dark:border-dark-border justify-between text-xs font-semibold text-slate-400 dark:text-slate-500">
+            <div className="flex px-6 py-2.5 sm:px-8 sm:py-3.5 bg-slate-50/30 dark:bg-dark-surface/20 border-b border-slate-100 dark:border-dark-border justify-between text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex-shrink-0">
               <span className={step >= 1 ? 'text-teal-600 dark:text-dark-brand' : ''}>1. Summary</span>
-              <ChevronRight className="w-4.5 h-4.5" />
+              <ChevronRight className="w-4 h-4" />
               <span className={step >= 2 ? 'text-teal-600 dark:text-dark-brand' : ''}>2. Shipping</span>
-              <ChevronRight className="w-4.5 h-4.5" />
+              <ChevronRight className="w-4 h-4" />
               <span className={step >= 3 ? 'text-teal-600 dark:text-dark-brand' : ''}>3. Payment</span>
             </div>
           )}
 
           {/* Content Body */}
-          <div className="p-6 overflow-y-auto flex-1 space-y-4">
+          <div className="p-5 sm:p-6 overflow-y-auto flex-grow space-y-4">
             {error && (
-              <div className="p-4 bg-danger/10 text-danger border border-danger/25 rounded-2xl text-sm font-medium">
+              <div className="p-3.5 bg-danger/10 text-danger border border-danger/25 rounded-2xl text-xs sm:text-sm font-medium">
                 {error}
               </div>
             )}
@@ -472,7 +472,7 @@ const CheckoutModal = ({ isOpen, onClose, product, onOrderSuccess }) => {
           </div>
 
           {/* Footer Controls */}
-          <div className="p-6 border-t border-slate-100 dark:border-dark-border flex bg-slate-50/50 dark:bg-dark-surface/30 justify-between items-center gap-3">
+          <div className="p-4 sm:p-5 border-t border-slate-100 dark:border-dark-border flex bg-slate-50/50 dark:bg-dark-surface/30 justify-between items-center gap-3 flex-shrink-0">
             {step === 4 ? (
               <div className="flex w-full gap-3">
                 <button
