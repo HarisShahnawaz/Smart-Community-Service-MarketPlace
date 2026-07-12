@@ -1,5 +1,9 @@
 # Smart Community Marketplace
 
+<p align="center">
+  <img src="Frontend/src/assets/HomePage.png" alt="Smart Community Marketplace Homepage" width="100%">
+</p>
+
 A full-stack community marketplace where neighbors can **buy & sell products**, **hire skilled professionals**, and **chat in real time** — all within a trusted, review-driven community platform.
 
 ---
@@ -11,7 +15,15 @@ A full-stack community marketplace where neighbors can **buy & sell products**, 
 - Upload up to 5 images per listing (stored on Cloudinary)
 - Product condition tracking (new / used)
 - Admin approval workflow before listings go live
-- Mark products as sold
+- Mark products as sold or manage sales through orders
+
+### 📦 Orders & Checkout
+- Secure product checkout using Demo Card or Cash on Delivery (COD)
+- Interactive checkout modal with shipping address inputs
+- Order tracking for buyers (My Purchases) and sellers (My Sales)
+- Real-time seller notifications upon receiving a new order
+- Order fulfillment workflow: `pending → confirmed → shipped → delivered → cancelled`
+- Automatic status updates (e.g. marking products as `sold` on order, releasing back to `active` if cancelled)
 
 ### 🔧 Services
 - Offer and discover local services (Web Dev, Design, Tutoring, Home Repair, etc.)
@@ -107,7 +119,8 @@ Smart-Community-Marketplace/
 │   │   ├── favoriteController.js
 │   │   ├── dashboardController.js
 │   │   ├── userController.js
-│   │   └── adminController.js
+│   │   ├── adminController.js
+│   │   └── orderController.js
 │   ├── middleware/
 │   │   ├── auth.js            # JWT protect & admin guard
 │   │   ├── errorHandler.js    # Global error handler
@@ -121,7 +134,8 @@ Smart-Community-Marketplace/
 │   │   ├── Conversation.js
 │   │   ├── Review.js
 │   │   ├── Notification.js
-│   │   └── Favorite.js
+│   │   ├── Favorite.js
+│   │   └── Order.js
 │   ├── routes/                # Express routers
 │   ├── utils/                 # Helper utilities
 │   ├── seed.js                # Database seeder
@@ -135,6 +149,7 @@ Smart-Community-Marketplace/
 │       ├── components/
 │       │   ├── Layout.jsx     # Navbar, sidebar, shell
 │       │   ├── BookingModal.jsx
+│       │   ├── CheckoutModal.jsx
 │       │   ├── FavoriteButton.jsx
 │       │   ├── Notifications.jsx
 │       │   ├── ProtectedRoute.jsx
@@ -151,6 +166,7 @@ Smart-Community-Marketplace/
 │       │   ├── products/      # List, Detail, Create/Edit
 │       │   ├── services/      # List, Detail, Create/Edit
 │       │   ├── bookings/      # List, Detail
+│       │   ├── orders/        # Orders history list
 │       │   ├── chat/          # Conversations, Chat window
 │       │   ├── profile/       # View, Edit
 │       │   └── admin/         # Dashboard, Users, Listings
@@ -335,6 +351,7 @@ Frontend runs on → `http://localhost:5173`
 | Method | Endpoint | Access |
 |--------|----------|--------|
 | GET | `/api/notifications` | Private |
+| GET | `/api/notifications/unread` | Private |
 | GET | `/api/notifications/unread-count` | Private |
 | PUT | `/api/notifications/:id/read` | Private |
 | PUT | `/api/notifications/read-all` | Private |
@@ -345,6 +362,14 @@ Frontend runs on → `http://localhost:5173`
 |--------|----------|--------|
 | GET | `/api/dashboard/stats` | Private |
 | GET | `/api/dashboard/activity` | Private |
+
+### Orders
+| Method | Endpoint | Access |
+|--------|----------|--------|
+| POST | `/api/orders` | Private |
+| GET | `/api/orders/my-purchases` | Private (buyer) |
+| GET | `/api/orders/my-sales` | Private (seller) |
+| PUT | `/api/orders/:id/status` | Private (seller/admin) |
 
 ### Admin
 | Method | Endpoint | Access |
@@ -361,6 +386,11 @@ Frontend runs on → `http://localhost:5173`
 | PUT | `/api/admin/services/:id/status` | Admin |
 | GET | `/api/admin/bookings` | Admin |
 
+### Health Check
+| Method | Endpoint | Access |
+|--------|----------|--------|
+| GET | `/api/health` | Public |
+
 ---
 
 ## 🔌 Socket.IO Events
@@ -375,6 +405,7 @@ Frontend runs on → `http://localhost:5173`
 | `typing` | `{ conversationId, userId, name }` | Typing indicator |
 | `stop_typing` | `{ conversationId, userId }` | Stop typing |
 | `send_notification` | `{ recipientId, notification }` | Push notification to user |
+| `notification_read` | `notificationId` | Acknowledge that a notification was read |
 
 ### Server → Client
 | Event | Payload | Description |
@@ -384,6 +415,7 @@ Frontend runs on → `http://localhost:5173`
 | `user_typing` | `{ conversationId, userId, name }` | Typing indicator |
 | `user_stop_typing` | `{ conversationId, userId }` | Stopped typing |
 | `receive_notification` | `notification` | New notification |
+| `notification_acknowledged` | `{ notificationId }` | Confirms receipt/read status of notification |
 
 ---
 
@@ -400,6 +432,9 @@ Frontend runs on → `http://localhost:5173`
 
 ### Booking
 `service` · `client` · `provider` · `message` · `scheduledDate` · `totalPrice` · `status (pending/accepted/rejected/completed/cancelled)`
+
+### Order
+`productId` · `buyerId` · `sellerId` · `quantity` · `totalPrice` · `shippingAddress { fullName, phone, addressLine, city, postalCode }` · `paymentMethod (cash_on_delivery/demo_card)` · `status (pending/confirmed/shipped/delivered/cancelled)`
 
 ### Review
 `reviewerId` · `targetId` · `targetType (User/Service/Product)` · `rating (1–5)` · `comment` · `bookingId`
@@ -419,8 +454,28 @@ Frontend runs on → `http://localhost:5173`
 
 | Role | Capabilities |
 |------|-------------|
-| `user` | Full access to marketplace, services, bookings, chat, reviews, favorites, dashboard |
+| `user` | Full access to marketplace, services, bookings, orders, chat, reviews, favorites, dashboard |
 | `admin` | All user capabilities + admin panel (user management, content approval, platform stats) |
+
+---
+
+## 🔍 Code Review & Architecture Insights
+
+Following a detailed review of the code in the repository, here are several engineering insights, design patterns, and recommendations:
+
+### 🏗️ Backend Review (Express & MongoDB)
+- **RESTful Endpoints**: The routing is highly modularized (`/api/auth`, `/api/users`, `/api/products`, etc.) with consistent middleware application (JWT protection via `protect` and admin guard authorization).
+- **Data Integrity & Recalculation**: Reviews implement automatic pre/post hooks or logic to recalculate a user/product/service's average rating and review counts on creation/update/deletion. This prevents stale aggregates in the database.
+- **Real-Time Integration**: The API endpoints are nicely coupled with Socket.IO. Actions like creating orders, bookings, or messages automatically store the notification record in MongoDB and emit real-time events to online users, maintaining synchronous app state.
+- **Room for Improvement**:
+  - **MongoDB Indexes**: Currently, fields like `sellerId`, `buyerId`, `reviewerId`, and `status` are heavily queried in filters and sorting but lack database indexes in Mongoose models. Adding indexes (e.g. `{ buyerId: 1, createdAt: -1 }`) will significantly improve query execution speeds as the dataset grows.
+  - **Error Handling Consistency**: The application uses a custom global `errorHandler` middleware. Some controllers throw standard errors, while others could benefit from an explicit `next(error)` catch block to avoid unhandled rejections on asynchronous middleware operations.
+
+### 🎨 Frontend Review (React 19 & TailwindCSS)
+- **State Management**: The application utilizes context providers (`AuthContext`, `SocketContext`, `ThemeContext`) for global states, ensuring clean separations of concern.
+- **API Layer Modularization**: Several components communicate directly via custom API files (`orderApi`, `reviewApi`, `adminApi`), though others fallback to direct `api/axios` client requests. Standardizing all routes into modular API wrappers increases code reusability and mockability for testing.
+- **Animations & UX**: Utilizing Framer Motion and Lucide icons enhances UI fluidness and provides micro-animations that feel polished and interactive.
+- **TailwindCSS Configuration**: The application leverages TailwindCSS v4 configurations, utilizing utility classes for dark mode (`dark:`) and grid layouts efficiently.
 
 ---
 

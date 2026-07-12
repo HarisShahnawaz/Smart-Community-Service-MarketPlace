@@ -6,6 +6,11 @@ const Product = require('./models/Product');
 const Service = require('./models/Service');
 const Booking = require('./models/Booking');
 const Review = require('./models/Review');
+const Order = require('./models/Order');
+const Conversation = require('./models/Conversation');
+const Message = require('./models/Message');
+const Notification = require('./models/Notification');
+const Favorite = require('./models/Favorite');
 
 dotenv.config();
 
@@ -20,6 +25,11 @@ const seedDatabase = async () => {
     await Service.deleteMany({});
     await Booking.deleteMany({});
     await Review.deleteMany({});
+    await Order.deleteMany({});
+    await Conversation.deleteMany({});
+    await Message.deleteMany({});
+    await Notification.deleteMany({});
+    await Favorite.deleteMany({});
     console.log('Cleared existing data');
 
     // Create users
@@ -227,6 +237,7 @@ const seedDatabase = async () => {
         client: users[1]._id,
         provider: users[0]._id,
         message: 'Need a portfolio website with e-commerce functionality',
+        scheduledDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         totalPrice: 500,
         status: 'completed'
       },
@@ -235,6 +246,7 @@ const seedDatabase = async () => {
         client: users[2]._id,
         provider: users[1]._id,
         message: 'Need a logo for my startup',
+        scheduledDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
         totalPrice: 150,
         status: 'accepted'
       },
@@ -243,6 +255,7 @@ const seedDatabase = async () => {
         client: users[0]._id,
         provider: users[2]._id,
         message: 'Need 5 blog posts about technology',
+        scheduledDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
         totalPrice: 250,
         status: 'pending'
       },
@@ -251,6 +264,7 @@ const seedDatabase = async () => {
         client: users[0]._id,
         provider: users[3]._id,
         message: 'Need product photos for my online store',
+        scheduledDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
         totalPrice: 200,
         status: 'completed'
       }
@@ -316,6 +330,49 @@ const seedDatabase = async () => {
     ]);
 
     console.log('Created reviews');
+
+    // Create orders
+    const orders = await Order.create([
+      {
+        productId: products[0]._id,
+        buyerId: users[2]._id,
+        sellerId: users[0]._id,
+        quantity: 1,
+        totalPrice: 450,
+        shippingAddress: {
+          fullName: 'Bob Johnson',
+          phone: '123-456-7890',
+          addressLine: '789 Pine Rd',
+          city: 'Chicago',
+          postalCode: '60601'
+        },
+        paymentMethod: 'demo_card',
+        status: 'delivered'
+      },
+      {
+        productId: products[1]._id,
+        buyerId: users[0]._id,
+        sellerId: users[1]._id,
+        quantity: 1,
+        totalPrice: 200,
+        shippingAddress: {
+          fullName: 'John Doe',
+          phone: '987-654-3210',
+          addressLine: '123 Main St',
+          city: 'San Francisco',
+          postalCode: '94101'
+        },
+        paymentMethod: 'cash_on_delivery',
+        status: 'confirmed'
+      }
+    ]);
+
+    // Update product status to sold for ordered products
+    products[0].status = 'sold';
+    products[1].status = 'sold';
+    await products[0].save();
+    await products[1].save();
+    console.log('Created orders and updated product statuses to sold');
 
     console.log('Database seeded successfully!');
     console.log('\nTest Accounts:');
