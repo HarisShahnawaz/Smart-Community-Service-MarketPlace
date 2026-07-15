@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { Calendar, Clock, ChevronRight, Briefcase, Package } from 'lucide-react';
+import SafeImage from '../../components/SafeImage';
 
 const STATUS_STYLES = {
   pending:   'bg-warning/20 text-warning border-warning/30',
@@ -91,7 +92,7 @@ const MyBookings = () => {
                 {/* Service Image */}
                 <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-beige-200">
                   {img ? (
-                    <img src={img} alt="Service" className="w-full h-full object-cover" />
+                    <SafeImage src={img} alt="Service" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-beige-400">
                       <Briefcase className="w-8 h-8" />
@@ -106,7 +107,7 @@ const MyBookings = () => {
                   </h3>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm text-beige-600">
                     <span className="flex items-center gap-1">
-                      <img src={otherParty?.avatar} alt={otherParty?.name} className="w-5 h-5 rounded-full border border-beige-200 object-cover" />
+                      <SafeImage src={otherParty?.avatar} alt={otherParty?.name} variant="avatar" className="w-5 h-5 rounded-full border border-beige-200 object-cover" />
                       {activeTab === 'client' ? 'Provider: ' : 'Client: '}{otherParty?.name}
                     </span>
                     <span className="flex items-center gap-1">

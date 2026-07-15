@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import { Heart, Package, Briefcase, ArrowRight } from 'lucide-react';
+import SafeImage from '../components/SafeImage';
 
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useState([]);
@@ -106,7 +107,7 @@ const FavoritesPage = () => {
               <div key={fav._id} className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 dark:border-dark-border flex flex-col group transition-shadow">
                 <div className="relative h-44 bg-beige-200 dark:bg-dark-surface-elevated overflow-hidden">
                   {image ? (
-                    <img src={image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <SafeImage src={image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-beige-400 dark:text-dark-text-secondary">
                       {isProduct ? <Package className="w-10 h-10" /> : <Briefcase className="w-10 h-10" />}
@@ -132,7 +133,7 @@ const FavoritesPage = () => {
                   </h3>
                   <div className="text-teal-700 dark:text-dark-brand font-bold text-lg mb-3">{price}</div>
                   <div className="flex items-center gap-2 mb-4">
-                    <img src={seller?.avatar} alt={seller?.name} className="w-6 h-6 rounded-full border border-beige-200 dark:border-dark-border object-cover" />
+                    <SafeImage src={seller?.avatar} alt={seller?.name} variant="avatar" className="w-6 h-6 rounded-full border border-beige-200 dark:border-dark-border object-cover" />
                     <span className="text-xs text-beige-600 dark:text-dark-text-secondary truncate">{seller?.name}</span>
                   </div>
                   <Link to={linkPath} className="mt-auto flex items-center justify-center gap-2 bg-beige-100 dark:bg-dark-surface-elevated hover:bg-teal-50 dark:hover:bg-dark-brand/10 text-teal-700 dark:text-dark-brand font-medium text-sm py-2.5 rounded-xl border border-beige-200 dark:border-dark-border hover:border-teal-300 dark:hover:border-dark-brand/30 transition-colors">

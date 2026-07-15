@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getPendingProducts, updateProductStatus, getPendingServices, updateServiceStatus } from '../../api/adminApi';
 import { useAuth } from '../../context/AuthContext';
 import { Package, Briefcase, Check, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import SafeImage from '../../components/SafeImage';
 
 const AdminApprovals = () => {
   const { user } = useAuth();
@@ -125,7 +126,7 @@ const AdminApprovals = () => {
                 <div key={product._id} className="p-6 hover:bg-gray-50">
                   <div className="flex gap-4">
                     {product.images?.[0] && (
-                      <img
+                      <SafeImage
                         src={product.images[0]}
                         alt={product.title}
                         className="w-24 h-24 rounded-lg object-cover"
@@ -208,7 +209,7 @@ const AdminApprovals = () => {
                 <div key={service._id} className="p-6 hover:bg-gray-50">
                   <div className="flex gap-4">
                     {service.portfolioImages?.[0] && (
-                      <img
+                      <SafeImage
                         src={service.portfolioImages[0]}
                         alt={service.title}
                         className="w-24 h-24 rounded-lg object-cover"

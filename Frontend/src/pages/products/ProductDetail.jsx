@@ -6,6 +6,7 @@ import { getOrCreateConversation } from '../../api/messageApi';
 import { MapPin, Tag, ArrowLeft, Star, Clock, User, CheckCircle, Edit, Trash2, MessageCircle, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
 import CheckoutModal from '../../components/CheckoutModal';
+import SafeImage from '../../components/SafeImage';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -116,7 +117,7 @@ const ProductDetail = () => {
         <div className="md:w-1/2 p-4 sm:p-6 border-b md:border-b-0 md:border-r border-slate-200 dark:border-dark-border bg-slate-50 dark:bg-dark-bg">
           <div className="aspect-square bg-white dark:bg-dark-surface rounded-xl overflow-hidden mb-4 border border-slate-200 dark:border-dark-border">
             {product.images && product.images.length > 0 ? (
-              <img 
+              <SafeImage 
                 src={product.images[activeImage]} 
                 alt={product.title} 
                 className="w-full h-full object-contain"
@@ -138,7 +139,7 @@ const ProductDetail = () => {
                     activeImage === idx ? 'border-brand-600 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                  <SafeImage src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -201,9 +202,10 @@ const ProductDetail = () => {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-50 dark:bg-dark-bg p-4 rounded-xl border border-slate-200 dark:border-dark-border">
               <div className="flex items-center gap-4">
                 <Link to={`/profile/${product.sellerId._id}`}>
-                  <img 
-                    src={product.sellerId.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
+                  <SafeImage 
+                    src={product.sellerId.avatar} 
                     alt={product.sellerId.name} 
+                    variant="avatar"
                     className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-600 shadow-sm object-cover"
                   />
                 </Link>

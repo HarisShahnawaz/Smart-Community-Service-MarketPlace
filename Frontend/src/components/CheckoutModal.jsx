@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, CreditCard, Truck, Check, ChevronRight, ChevronLeft, CreditCard as CardIcon } from 'lucide-react';
 import { createOrder } from '../api/orderApi';
 import { useAuth } from '../context/AuthContext';
+import SafeImage from './SafeImage';
 
 const CheckoutModal = ({ isOpen, onClose, product, onOrderSuccess }) => {
   const { user } = useAuth();
@@ -183,8 +184,8 @@ const CheckoutModal = ({ isOpen, onClose, product, onOrderSuccess }) => {
             {step === 1 && (
               <div className="space-y-4">
                 <div className="flex gap-3 p-3 bg-slate-50 dark:bg-dark-bg rounded-xl border border-slate-100 dark:border-dark-border">
-                  <img
-                    src={product.images?.[0] || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'}
+                  <SafeImage
+                    src={product.images?.[0]}
                     alt={product.title}
                     className="w-16 h-16 rounded-lg object-cover border border-slate-200 dark:border-dark-border"
                   />

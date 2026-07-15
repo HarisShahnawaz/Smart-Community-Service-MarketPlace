@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import { ArrowLeft, Calendar, MessageSquare, User, CheckCircle, XCircle, Clock, Star } from 'lucide-react';
+import SafeImage from '../../components/SafeImage';
 
 const STATUS_STYLES = {
   pending:   { badge: 'bg-warning/20 text-warning border-warning/30', label: 'Pending' },
@@ -136,9 +137,10 @@ const BookingDetail = () => {
               { label: 'Provider', person: booking.provider }
             ].map(({ label, person }) => (
               <div key={label} className="flex items-center gap-4">
-                <img
+                <SafeImage
                   src={person?.avatar}
                   alt={person?.name}
+                  variant="avatar"
                   className="w-12 h-12 rounded-full border-2 border-beige-200 object-cover"
                 />
                 <div>

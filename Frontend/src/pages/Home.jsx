@@ -6,6 +6,7 @@ import {
   Target, HelpCircle, Shield, ChevronDown, Zap, CheckCircle, Clock,
 } from 'lucide-react';
 import api from '../api/axios';
+import SafeImage from '../components/SafeImage';
 
 const CATEGORY_FALLBACK = {
   Electronics: '📱',
@@ -343,7 +344,7 @@ const Home = () => {
                       {/* Image area with overlays */}
                       <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 dark:from-dark-surface dark:to-dark-surface-elevated overflow-hidden relative">
                         {item.images && item.images.length > 0 ? (
-                          <img
+                          <SafeImage
                             src={item.images[0]}
                             alt={item.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -476,7 +477,7 @@ const Home = () => {
                       {/* Image area */}
                       <div className="aspect-video bg-gradient-to-br from-teal-50 to-teal-100 dark:from-dark-surface dark:to-dark-surface-elevated overflow-hidden relative">
                         {svc.portfolioImages && svc.portfolioImages.length > 0 ? (
-                          <img
+                          <SafeImage
                             src={svc.portfolioImages[0]}
                             alt={svc.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

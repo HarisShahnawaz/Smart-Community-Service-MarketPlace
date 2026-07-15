@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import { Camera, Save, ArrowLeft } from 'lucide-react';
+import SafeImage from '../../components/SafeImage';
 
 const ProfileEdit = () => {
   const { user: currentUser } = useAuth();
@@ -133,9 +134,10 @@ const ProfileEdit = () => {
           {/* Avatar Section */}
           <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 sm:pb-8 border-b border-slate-200 dark:border-dark-border">
             <div className="relative group">
-              <img 
+              <SafeImage 
                 src={avatarPreview} 
                 alt="Avatar" 
+                variant="avatar"
                 className="w-32 h-32 rounded-full object-cover border-4 border-slate-100 dark:border-slate-700 shadow-sm"
               />
               <button

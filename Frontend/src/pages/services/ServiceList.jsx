@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { Clock, Star, Briefcase, Search, Filter, BadgeCheck } from 'lucide-react';
 import FavoriteButton from '../../components/FavoriteButton';
+import SafeImage from '../../components/SafeImage';
 
 const ServiceList = () => {
   const [services, setServices] = useState([]);
@@ -152,7 +153,7 @@ const ServiceList = () => {
               <div key={service._id} className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-beige-300 dark:border-dark-border transition-shadow group flex flex-col relative">
                 <Link to={`/services/${service._id}`} className="block relative h-48 bg-teal-900 dark:bg-dark-surface-elevated overflow-hidden">
                   {service.portfolioImages && service.portfolioImages.length > 0 ? (
-                    <img src={service.portfolioImages[0]} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90" />
+                    <SafeImage src={service.portfolioImages[0]} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-teal-200 dark:text-dark-text-secondary">
                       <Briefcase className="w-12 h-12 opacity-50" />
@@ -165,7 +166,7 @@ const ServiceList = () => {
                   )}
                   <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-charcoal/80 to-transparent p-4">
                     <div className="flex items-center gap-2">
-                      <img src={service.providerId?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} alt="Provider" className="w-8 h-8 rounded-full border-2 border-white shadow-sm" />
+                      <SafeImage src={service.providerId?.avatar} alt="Provider" variant="avatar" className="w-8 h-8 rounded-full border-2 border-white shadow-sm" />
                       <span className="text-sm font-bold text-white drop-shadow-sm">{service.providerId?.name || 'Unknown'}</span>
                     </div>
                   </div>

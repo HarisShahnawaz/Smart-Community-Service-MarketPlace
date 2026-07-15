@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getMyPurchases, getMySales, updateOrderStatus } from '../../api/orderApi';
 import { useAuth } from '../../context/AuthContext';
 import { Package, ShoppingBag, ArrowRight, User, Phone, MapPin, CreditCard, Calendar } from 'lucide-react';
+import SafeImage from '../../components/SafeImage';
 
 const STATUS_STYLES = {
   pending:   'bg-warning/20 text-warning border-warning/30',
@@ -154,8 +155,8 @@ const OrdersPage = () => {
                   {/* Left: Product Info */}
                   <div className="flex gap-4 flex-1 min-w-0">
                     <div className="w-24 h-24 bg-slate-100 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-2xl overflow-hidden shrink-0">
-                      <img 
-                        src={productInfo.images?.[0] || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
+                      <SafeImage 
+                        src={productInfo.images?.[0]} 
                         alt={productInfo.title || 'Product'} 
                         className="w-full h-full object-cover"
                       />
@@ -203,9 +204,10 @@ const OrdersPage = () => {
                       {activeTab === 'purchases' ? 'Seller Info' : 'Buyer Info'}
                     </h4>
                     <div className="flex items-center gap-3">
-                      <img 
-                        src={clientInfo?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
+                      <SafeImage 
+                        src={clientInfo?.avatar} 
                         alt={clientInfo?.name || 'User'} 
+                        variant="avatar"
                         className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-dark-border"
                       />
                       <div className="min-w-0">

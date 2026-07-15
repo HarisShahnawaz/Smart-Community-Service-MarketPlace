@@ -14,23 +14,39 @@ const Favorite = require('./models/Favorite');
 
 dotenv.config();
 
+// ─── SAFETY GUARD ────────────────────────────────────────────────────────────
+// This script wipes ALL collections before inserting seed data.
+// It MUST NOT run automatically or accidentally.
+// To run intentionally:  ALLOW_SEED_WIPE=true node seed.js
+const FORCE_SEED = process.env.ALLOW_SEED_WIPE === 'true';
+if (!FORCE_SEED) {
+  console.error('\n🚫 SEEDING BLOCKED');
+  console.error('   This script deletes ALL data in every collection.');
+  console.error('   To run it intentionally, set the env variable:');
+  console.error('     ALLOW_SEED_WIPE=true node seed.js');
+  console.error('   Never set this variable in .env or in any automated process.\n');
+  process.exit(1);
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
 
-    // Clear existing data
-    await User.deleteMany({});
-    await Product.deleteMany({});
-    await Service.deleteMany({});
-    await Booking.deleteMany({});
-    await Review.deleteMany({});
-    await Order.deleteMany({});
-    await Conversation.deleteMany({});
-    await Message.deleteMany({});
-    await Notification.deleteMany({});
-    await Favorite.deleteMany({});
-    console.log('Cleared existing data');
+    // ⚠️  DESTRUCTIVE BLOCK — wipes every collection ⚠️
+    console.log('\n⚠️  WARNING: Wiping all collections — this is intentional (ALLOW_SEED_WIPE=true was set).');
+    await User.deleteMany({});         console.log('   Wiped: Users');
+    await Product.deleteMany({});      console.log('   Wiped: Products');
+    await Service.deleteMany({});      console.log('   Wiped: Services');
+    await Booking.deleteMany({});      console.log('   Wiped: Bookings');
+    await Review.deleteMany({});       console.log('   Wiped: Reviews');
+    await Order.deleteMany({});        console.log('   Wiped: Orders');
+    await Conversation.deleteMany({}); console.log('   Wiped: Conversations');
+    await Message.deleteMany({});      console.log('   Wiped: Messages');
+    await Notification.deleteMany({}); console.log('   Wiped: Notifications');
+    await Favorite.deleteMany({});     console.log('   Wiped: Favorites');
+    console.log('✅ Cleared existing data\n');
 
     // Create users
     const hashedPassword = await bcrypt.hash('password123', 10);

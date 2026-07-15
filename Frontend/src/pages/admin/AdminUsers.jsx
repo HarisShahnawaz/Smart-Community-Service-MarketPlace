@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getAllUsers, updateUser, deleteUser } from '../../api/adminApi';
 import { useAuth } from '../../context/AuthContext';
 import { Search, Shield, Ban, Check, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import SafeImage from '../../components/SafeImage';
 
 const AdminUsers = () => {
   const { user } = useAuth();
@@ -127,9 +128,10 @@ const AdminUsers = () => {
                   <tr key={userItem._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <img
+                        <SafeImage
                           src={userItem.avatar}
                           alt={userItem.name}
+                          variant="avatar"
                           className="w-10 h-10 rounded-full object-cover"
                         />
                         <div className="ml-4">

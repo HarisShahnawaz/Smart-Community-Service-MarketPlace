@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { getOrCreateConversation } from '../../api/messageApi';
 import { Clock, Star, ArrowLeft, Briefcase, Edit, Trash2, Calendar, MapPin, MessageCircle } from 'lucide-react';
 import BookingModal from '../../components/BookingModal';
+import SafeImage from '../../components/SafeImage';
 
 const ServiceDetail = () => {
   const { id } = useParams();
@@ -119,7 +120,7 @@ const ServiceDetail = () => {
             {service.portfolioImages && service.portfolioImages.length > 0 ? (
               <div>
                 <div className="aspect-video bg-slate-900 dark:bg-slate-800 w-full overflow-hidden">
-                  <img 
+                  <SafeImage 
                     src={service.portfolioImages[activeImage]} 
                     alt={service.title} 
                     className="w-full h-full object-cover"
@@ -135,7 +136,7 @@ const ServiceDetail = () => {
                           activeImage === idx ? 'border-brand-600 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
                         }`}
                       >
-                        <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                        <SafeImage src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
                       </button>
                     ))}
                   </div>
@@ -216,9 +217,10 @@ const ServiceDetail = () => {
               
               <div className="flex items-center gap-4 mb-4">
                 <Link to={`/profile/${service.providerId._id}`}>
-                  <img 
-                    src={service.providerId.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
+                  <SafeImage 
+                    src={service.providerId.avatar} 
                     alt={service.providerId.name} 
+                    variant="avatar"
                     className="w-16 h-16 rounded-full border-2 border-slate-200 dark:border-slate-700 object-cover"
                   />
                 </Link>

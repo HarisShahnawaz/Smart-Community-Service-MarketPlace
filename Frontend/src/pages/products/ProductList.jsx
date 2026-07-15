@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { MapPin, Tag, Search, Filter, X, ShoppingBag } from 'lucide-react';
 import FavoriteButton from '../../components/FavoriteButton';
+import SafeImage from '../../components/SafeImage';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import CheckoutModal from '../../components/CheckoutModal';
@@ -202,7 +203,7 @@ const ProductList = () => {
               >
                 <Link to={`/products/${product._id}`} className="block relative h-48 bg-beige-200 dark:bg-dark-surface-elevated overflow-hidden">
                   {product.images && product.images.length > 0 ? (
-                    <img 
+                    <SafeImage 
                       src={product.images[0]} 
                       alt={product.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -244,9 +245,10 @@ const ProductList = () => {
                     
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-beige-100 dark:border-dark-border">
                       <div className="flex items-center gap-2">
-                        <img 
-                          src={product.sellerId?.avatar || 'https://res.cloudinary.com/demo/image/upload/v1580220268/avatar.png'} 
+                        <SafeImage 
+                          src={product.sellerId?.avatar} 
                           alt="Seller" 
+                          variant="avatar"
                           className="w-6 h-6 rounded-full border border-beige-200 dark:border-dark-border object-cover"
                         />
                         <span className="text-xs font-medium text-charcoal dark:text-dark-text-primary truncate max-w-[100px]">

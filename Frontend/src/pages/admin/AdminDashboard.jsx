@@ -12,6 +12,7 @@ import {
   TrendingUp,
   Shield
 } from 'lucide-react';
+import SafeImage from '../../components/SafeImage';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -145,9 +146,10 @@ const AdminDashboard = () => {
             <div className="space-y-3">
               {stats?.recentUsers?.slice(0, 5).map((user) => (
                 <div key={user._id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <img 
+                  <SafeImage 
                     src={user.avatar} 
                     alt={user.name} 
+                    variant="avatar"
                     className="w-10 h-10 rounded-full object-cover"
                   />
                   <div className="flex-1 min-w-0">
